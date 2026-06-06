@@ -14,14 +14,14 @@ if page.total !== 1
       each direction, key in paginationOrder
         if direction
           - const getPostDesc = direction.postDesc || postDesc(direction)
+          - const hasCover = direction.cover_type === 'img'
           - let className = key === 'prev' ? (paginationOrder.next ? '' : 'full-width') : (paginationOrder.prev ? '' : 'full-width')
           - className = getPostDesc ? className : className + ' no-desc'
+          - className = hasCover ? className : className + ' no-cover'
 
           a.pagination-related(class=className href=url_for(direction.path) title=direction.title)
-            if direction.cover_type === 'img'
+            if hasCover
               img.cover(src=url_for(direction.pagination_cover || direction.cover) onerror=`onerror=null;src='${url_for(theme.error_img.post_page)}'` alt=`cover of ${key === 'prev' ? 'previous' : 'next'} post`)
-            else
-              .cover(style=`background: ${direction.cover || 'var(--default-bg-color)'}`)
 
             .info(class=key === 'prev' ? '' : 'text-right')
               .info-1

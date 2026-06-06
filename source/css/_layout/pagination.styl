@@ -107,3 +107,24 @@
     .info-2
       opacity: 1
       transform: translate(0, -50%)
+
+  // 无封面：用磨砂玻璃 + 深色文字，仅展示标题，不再是丑陋的纯色块
+  &.no-cover
+    background: var(--card-bg)
+    backdrop-filter: saturate(160%) blur(var(--glass-blur))
+    transition: background .3s
+
+    .info
+      .info-1,
+      .info-2
+        color: var(--font-color)
+
+      .info-1
+        .info-item-1
+          color: var(--toc-link-color)
+
+        .info-item-2
+          color: var(--font-color)
+
+    &:hover
+      background: alpha($theme-color, .14)
