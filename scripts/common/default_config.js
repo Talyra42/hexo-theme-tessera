@@ -440,7 +440,7 @@ module.exports = {
     source: 1,
     pace_css_url: null
   },
-  enter_transitions: true,
+  enter_transitions: false,
   display_mode: 'light',
   beautify: {
     enable: false,
@@ -563,11 +563,11 @@ module.exports = {
   },
   instantpage: false,
   lazyload: {
-    enable: false,
+    enable: true,
     native: false,
     field: 'site',
     placeholder: null,
-    blur: false
+    blur: true
   },
   pwa: {
     enable: false,
