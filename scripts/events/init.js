@@ -23,9 +23,9 @@ function checkHexoEnvironment (hexo) {
   // Check for deprecated configuration file
   if (locals.get) {
     const data = locals.get('data')
-    if (data && data.butterfly) {
-      log.error("'butterfly.yml' is deprecated. Please use '_config.butterfly.yml'")
-      log.error("'butterfly.yml' 已經棄用，請使用 '_config.butterfly.yml'")
+    if (data && data.tessera) {
+      log.error("'tessera.yml' is deprecated. Please use '_config.tessera.yml'")
+      log.error("'tessera.yml' 已經棄用，請使用 '_config.tessera.yml'")
       throw new Error('Deprecated configuration file')
     }
   }

@@ -1,8 +1,8 @@
 # --------------------------------------
-# Hexo Butterfly Theme Configuration
+# Hexo Tessera Theme Configuration
 # If you have any questions, please refer to the documentation
-# Chinese: https://butterfly.js.org/
-# English: https://butterfly.js.org/en/
+# Chinese: https://github.com/Talyra42/hexo-theme-tessera
+# English: https://github.com/Talyra42/hexo-theme-tessera
 # --------------------------------------
 
 # --------------------------------------
@@ -56,7 +56,7 @@ social:
 favicon: /img/favicon.png
 
 avatar:
-  img: /img/butterfly-icon.png
+  img: /img/tessera-icon.png
   effect: false
 
 # Disable all banner images
@@ -223,7 +223,7 @@ reward:
 post_edit:
   enable: false
   # url: https://github.com/user-name/repo-name/edit/branch-name/subdirectory-name/
-  # For example: https://github.com/jerryc127/butterfly.js.org/edit/main/source/
+  # For example: https://github.com/Talyra42/blog/edit/main/source/
   url:
 
 # Related Articles

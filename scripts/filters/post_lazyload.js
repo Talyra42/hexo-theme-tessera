@@ -1,5 +1,5 @@
 /**
- * Butterfly
+ * Tessera
  * Lazyload filter
  * Replace src with data-lazy-src for lazy loading
  */

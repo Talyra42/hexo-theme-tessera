@@ -1,193 +1,127 @@
-<div align="right">
-  <a title="中文" href="/README_CN.md">中文</a>
-</div>
-
 <div align="center">
 
-<img src="./source/img/butterfly-icon.png" width="150" height="150" alt="Butterfly Logo" />
+<img src="./source/img/tessera-icon.png" width="150" height="150" alt="Tessera Logo" />
 
-# hexo-theme-butterfly
+# hexo-theme-tessera
 
-A modern, elegant and feature-rich theme for Hexo
+一个适用于 Hexo 的现代化、美观且功能丰富的主题
 
-![master version](https://img.shields.io/github/package-json/v/jerryc127/hexo-theme-butterfly/master?color=%231ab1ad&label=master)
-![dev version](https://img.shields.io/github/package-json/v/jerryc127/hexo-theme-butterfly/dev?label=dev)
-![npm version](https://img.shields.io/npm/v/hexo-theme-butterfly?color=%09%23bf00ff)
 ![hexo version](https://img.shields.io/badge/hexo-5.3.0+-0e83cd)
-![license](https://img.shields.io/github/license/jerryc127/hexo-theme-butterfly?color=FF5531)
-![GitHub stars](https://img.shields.io/github/stars/jerryc127/hexo-theme-butterfly?style=social)
-
-📢 **Demo**: [Butterfly Official](https://butterfly.js.org/) | [CrazyWong's Blog](https://blog.crazywong.com/)
-
-📖 **Documentation**: [English Docs](https://butterfly.js.org/en/posts/butterfly-docs-en-get-started/) | [中文文档](https://butterfly.js.org/posts/21cfbf15/)
-
-![Butterfly Theme Preview](https://cdn.jsdelivr.net/gh/jerryc127/CDN@m2/img/theme-butterfly-readme.png)
+![license](https://img.shields.io/github/license/Talyra42/hexo-theme-tessera?color=FF5531)
+![GitHub stars](https://img.shields.io/github/stars/Talyra42/hexo-theme-tessera?style=social)
 
 </div>
 
 ---
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
-### 💾 Installation
+### 💾 安装方式
 
-#### Method 1: Git Installation (Recommended)
-
-> 💡 **Tip**: If GitHub access is slow in mainland China, you can use the [Gitee Mirror](https://gitee.com/immyw/hexo-theme-butterfly.git)
-
-Execute in your Hexo blog root directory:
+在你的 Hexo 博客根目录下执行：
 
 ```bash
-# Install stable version (recommended)
-git clone -b master https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly
+git clone https://github.com/Talyra42/hexo-theme-tessera.git themes/tessera
 ```
 
-```bash
-# Install development version (early access to new features)
-git clone -b dev https://github.com/jerryc127/hexo-theme-butterfly.git themes/butterfly
-```
+### ⚙️ 主题配置
 
-#### Method 2: NPM Installation
-
-> ⚠️ **Note**: NPM installation only supports Hexo 5.0.0 and above
-
-```bash
-npm install hexo-theme-butterfly
-```
-
-### ⚙️ Theme Configuration
-
-1. **Enable Theme**: Modify your Hexo configuration file `_config.yml`:
+1. **启用主题**：修改你的 Hexo 配置文件 `_config.yml`：
 
 ```yaml
-theme: butterfly
+theme: tessera
 ```
 
-2. **Install Dependencies**: If you haven't installed pug and stylus renderers, please run:
+2. **安装依赖**：如果你尚未安装 pug 和 stylus 渲染器，请执行：
 
 ```bash
 npm install hexo-renderer-pug hexo-renderer-stylus --save
 ```
 
-## ✨ Theme Features
+> 💡 主题的个性化配置建议放在站点根目录的 `_config.tessera.yml` 中，避免直接修改主题目录，方便后续更新。
 
-### 🎨 Design Style
-- [x] **Card-based Design** - Modern card-style layout
-- [x] **Rounded/Square Design** - Customizable border styles
-- [x] **Responsive Design** - Perfect adaptation to all screen sizes
-- [x] **Two-column Layout** - Optimized reading experience
-- [x] **Dark Mode** - Eye-friendly night mode
+## ✨ 主题特色
 
-### 📝 Content Features
-- [x] **Multi-level Menu** - Support for secondary navigation menus
-- [x] **Reading Mode** - Focused article reading experience
-- [x] **TOC Navigation** - Desktop and mobile TOC support
-- [x] **Word Count** - Display article word count and reading time
-- [x] **Related Articles** - Smart recommendation of related content
-- [x] **Outdated Reminder** - Automatic article update status alerts
-- [x] **Traditional/Simplified Chinese** - Support for Traditional and Simplified Chinese switching
-- [x] **Tag Plugins** - Rich tag plugin support
+### 🎨 设计风格
+- [x] **卡片化设计** - 现代化的卡片式布局
+- [x] **圆角/直角设计** - 支持自定义边框样式
+- [x] **响应式设计** - 完美适配各种屏幕尺寸
+- [x] **双栏布局** - 优化的阅读体验
+- [x] **深色模式** - 护眼的夜间模式
 
-### 🔍 Search & Navigation
-- [x] **Multiple Search Options** - Algolia Search / Local Search / Docsearch
-- [x] **Built-in 404** - Beautiful 404 error page
-- [x] **Pjax Support** - Smooth page transition experience
+### 📝 内容功能
+- [x] **多级菜单** - 支持二级导航菜单
+- [x] **阅读模式** - 专注的文章阅读体验
+- [x] **目录导航** - 电脑和手机双端支持 TOC
+- [x] **字数统计** - 显示文章字数和阅读时间
+- [x] **相关文章** - 智能推荐相关内容
+- [x] **过期提醒** - 自动提示文章更新状态
+- [x] **简繁转换** - 支持简体中文和繁体中文切换
+- [x] **标签插件** - 丰富的标签插件支持
 
-### 🎨 Code Display
-- [x] **Syntax Highlighting** - Built-in multiple themes (darker/pale night/light/ocean)
-- [x] **Code Features** - Language display/fold expand/copy button/auto-wrap
-- [x] **Math Formulas** - Support for Mathjax and Katex
+### 🔍 搜索与导航
+- [x] **多种搜索** - Algolia 搜索 / 本地搜索 / Docsearch
+- [x] **内建 404** - 美观的 404 错误页面
+- [x] **Pjax 支持** - 流畅的页面切换体验
 
-### 💬 Social Interaction
-- [x] **Multiple Comment Systems** - Disqus/Gitalk/Valine/Waline/Twikoo/Giscus/Artalk etc.
-- [x] **Dual Comments Support** - Enable two comment systems simultaneously
-- [x] **Share Features** - Sharejs/Addtoany sharing components
-- [x] **Live Chat** - Chatra/Tidio/Crisp instant messaging
+### 🎨 代码展示
+- [x] **语法高亮** - 内建多种主题（darker/pale night/light/ocean）
+- [x] **代码功能** - 语言显示/折叠展开/复制按钮/自动换行
+- [x] **数学公式** - 支持 MathJax 和 KaTeX
 
-### 📊 Analytics & Statistics
-- [x] **Visit Statistics** - Busuanzi counter
-- [x] **Site Analytics** - Google Analytics/Baidu Analytics/Cloudflare Analytics/Microsoft Clarity/Umami
-- [x] **Webmaster Verification** - Major search engine verification
-- [x] **Ad Support** - Google AdSense/custom ad slots
+### 💬 社交互动
+- [x] **多元评论系统** - Disqus/Gitalk/Valine/Waline/Twikoo/Giscus/Artalk 等
+- [x] **双评论支持** - 可同时启用两套评论系统
+- [x] **分享功能** - Sharejs/Addtoany 分享组件
+- [x] **在线客服** - Chatra/Tidio/Crisp 即时聊天
 
-### 🎪 Visual Effects
-- [x] **Typing Effects** - activate_power_mode animations
-- [x] **Background Effects** - Static ribbons/dynamic ribbons/floating ribbons/Canvas Nest
-- [x] **Mouse Effects** - Fireworks/hearts/text click effects
-- [x] **Loading Animations** - Preloader and pace.js progress bars
-- [x] **Image Effects** - Medium Zoom/Fancybox image lightbox
-- [x] **Lazy Loading** - Image lazy loading optimization
+### 📊 数据分析
+- [x] **访问统计** - 不蒜子计数器
+- [x] **网站分析** - Google Analytics/百度统计/Cloudflare Analytics/Microsoft Clarity/Umami
+- [x] **站长验证** - 各大搜索引擎验证
+- [x] **广告支持** - Google AdSense/自定义广告位
 
-### 🛠️ Advanced Features
-- [x] **PWA Support** - Progressive Web App
-- [x] **Copy Protection** - Disable text copying/copyright info append
-- [x] **Theme Customization** - Custom site color schemes
-- [x] **Chart Support** - Mermaid flowcharts/Chart.js data charts
-- [x] **Music Notation** - ABCJS music notation support
-- [x] **Music Player** - APlayer/Meting music playback
-- [x] **Article Series** - Series article organization
-- [x] **Instantpage** - Page preloading acceleration
-- [x] **Snackbar** - Elegant notification messages
+### 🎪 视觉效果
+- [x] **打字特效** - activate_power_mode 动画
+- [x] **背景特效** - 静态彩带/动态彩带/飘带效果/Canvas Nest
+- [x] **鼠标特效** - 烟花/爱心/文字点击效果
+- [x] **加载动画** - Preloader 和 pace.js 进度条
+- [x] **图片效果** - Medium Zoom/Fancybox 图片灯箱
+- [x] **懒加载** - 图片延迟加载优化
 
-## 🤝 Contributors
+### 🛠️ 进阶功能
+- [x] **PWA 支持** - 渐进式网页应用
+- [x] **复制保护** - 可关闭文字复制/版权信息追加
+- [x] **主题定制** - 自定义网站配色方案
+- [x] **图表支持** - Mermaid 流程图/Chart.js 数据图表
+- [x] **音乐记谱** - ABCJS 音乐记谱法支持
+- [x] **音乐播放器** - APlayer/Meting 音乐播放功能
+- [x] **系列文章** - 系列文章组织功能
+- [x] **Instantpage** - 页面预加载加速
+- [x] **Snackbar** - 优雅的提示消息
 
-Thanks to all the developers who have contributed to the Butterfly theme!
+## 💬 获取帮助与支持
 
-[![Contributors](https://contrib.rocks/image?repo=jerryc127/hexo-theme-butterfly)](https://github.com/jerryc127/hexo-theme-butterfly/graphs/contributors)
+- 🐛 **发现问题？** → [GitHub Issues](https://github.com/Talyra42/hexo-theme-tessera/issues)
+- 💡 **有好想法？** → [GitHub Discussions](https://github.com/Talyra42/hexo-theme-tessera/discussions)
 
-## 📸 Screenshots
+## 📄 授权条款
 
-<div align="center">
+本项目采用 [GNU Affero 通用公共许可证 v3.0（AGPL-3.0）](LICENSE)。
 
-![Theme Demo](https://cdn.jsdelivr.net/gh/jerryc127/CDN@m2/img/butterfly-readme-screenshots-1.jpg)
+简而言之：你可以自由使用、修改与再发布本主题，但任何衍生作品——**包括以网络服务形式
+提供时**——都必须同样以 AGPL-3.0 开源发布。允许商业使用，但须遵守同样的开源义务。
 
-![Theme Demo](https://cdn.jsdelivr.net/gh/jerryc127/CDN@m2/img/butterfly-readme-screenshots-2.jpg)
+## 🙏 致敬与感谢
 
-![Theme Demo](https://cdn.jsdelivr.net/gh/jerryc127/CDN@m2/img/butterfly-readme-screenshots-3.jpg)
-
-![Theme Demo](https://cdn.jsdelivr.net/gh/jerryc127/CDN@m2/img/butterfly-readme-screenshots-4.jpg)
-
-</div>
-
-
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=jerryc127/hexo-theme-butterfly&type=Date)](https://star-history.com/#jerryc127/hexo-theme-butterfly&Date)
-
-## 🤝 Building a Better Theme Together
-
-We believe **the power of open source comes from everyone's participation**! Whether you're a developer, designer, or user, you can contribute to the development of the Butterfly theme.
-
-### 💬 Get Help & Support
-
-- 🐛 **Found a bug?** → [GitHub Issues](https://github.com/jerryc127/hexo-theme-butterfly/issues) - Let's solve it together!
-- 💡 **Have ideas?** → [GitHub Discussions](https://github.com/jerryc127/hexo-theme-butterfly/discussions) - Share your creative ideas!
-- 📚 **Learning to use?** → [Official Documentation](https://butterfly.js.org/) - Detailed usage guide
-- 💬 **Real-time discussion?** → [Telegram Group](https://t.me/bu2fly) - Chat with community members
-
-### 🎯 Contributing
-
-Want to make Butterfly better? We welcome any form of contribution:
-
-- **🔧 Code Contributions** - Fix bugs, add new features, optimize performance
-- **📝 Documentation** - Improve docs, translate content, write tutorials
-- **🎨 Design Suggestions** - UI/UX improvements, theme colors, icon design
-- **🧪 Testing & Feedback** - Test new features, report issues, provide user experience
-- **💰 Financial Support** - [Sponsor the Project](https://buy.stripe.com/3cs6rP6YA91sbbG5kk) - Support long-term development
-
-## 📄 License
-
-This project is licensed under the [Apache 2.0](LICENSE) License.
-
-## 🙏 Acknowledgments
-
-This theme is developed based on [hexo-theme-melody](https://github.com/Molunerfinn/hexo-theme-melody). Thanks to the original author for their excellent work that provided inspiration and foundation!
-
-Thanks to all friends who have contributed to the development of the Butterfly theme. Your support has made this theme continuously improve and progress.
+Tessera 基于 Jerry（CrazyWong）的 [hexo-theme-butterfly](https://github.com/jerryc127/hexo-theme-butterfly)
+开发，原项目采用 Apache License 2.0 授权；而 Butterfly 又是基于
+[hexo-theme-melody](https://github.com/Molunerfinn/hexo-theme-melody) 开发。
+衷心感谢原作者们的精彩创作，为本主题提供了坚实的基础。
 
 ---
 
 <div align="center">
 
-**✨ If this theme helps you, please give us a ⭐ Star! ✨**
+**✨ 如果这个主题对你有帮助，请给我们一个 ⭐ Star！✨**
 </div>

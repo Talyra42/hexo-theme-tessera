@@ -1,5 +1,5 @@
 /**
- * Butterfly
+ * Tessera
  * label
  * {% label text color %}
  */

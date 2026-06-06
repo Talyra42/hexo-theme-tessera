@@ -1,5 +1,5 @@
 /**
- * Butterfly
+ * Tessera
  * chartjs
  * https://www.chartjs.org/
  * {% chartjs [width, abreast, chartId] %}

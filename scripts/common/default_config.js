@@ -1,5 +1,5 @@
-// Butterfly 主題默認配置
-// Default configuration for Butterfly theme
+// Tessera 主題默認配置
+// Default configuration for Tessera theme
 
 module.exports = {
   nav: {
@@ -22,7 +22,7 @@ module.exports = {
   social: null,
   favicon: '/img/favicon.png',
   avatar: {
-    img: '/img/butterfly-icon.png',
+    img: '/img/tessera-icon.png',
     effect: false
   },
   disable_top_img: false,

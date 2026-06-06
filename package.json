@@ -1,6 +1,6 @@
 {
-  "name": "hexo-theme-butterfly",
-  "version": "5.5.5-b1",
+  "name": "hexo-theme-tessera",
+  "version": "1.0.0",
   "description": "A Simple and Card UI Design theme for Hexo",
   "main": "package.json",
   "scripts": {
@@ -9,18 +9,17 @@
   "keywords": [
     "hexo",
     "theme",
-    "butterfly",
+    "tessera",
     "Card UI Design",
-    "Jerry",
-    "hexo-theme-butterfly"
+    "Talyra42",
+    "hexo-theme-tessera"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jerryc127/hexo-theme-butterfly.git"
+    "url": "https://github.com/Talyra42/hexo-theme-tessera.git"
   },
   "bugs": {
-    "url": "https://github.com/jerryc127/hexo-theme-butterfly/issues",
-    "email": "my@crazywong.com"
+    "url": "https://github.com/Talyra42/hexo-theme-tessera/issues"
   },
   "dependencies": {
     "hexo-renderer-pug": "^3.0.0",
@@ -28,7 +27,7 @@
     "hexo-util": "^4.0.0",
     "moment-timezone": "^0.6.0"
   },
-  "homepage": "https://butterfly.js.org/",
-  "author": "Jerry <my@crazywong.com>",
-  "license": "Apache-2.0"
+  "homepage": "https://github.com/Talyra42/hexo-theme-tessera",
+  "author": "Talyra42",
+  "license": "AGPL-3.0-only"
 }

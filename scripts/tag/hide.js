@@ -1,5 +1,5 @@
 /**
- * Butterfly
+ * Tessera
  * @example
  * hideInline
  * {% hideInline content,display,bg,color %}

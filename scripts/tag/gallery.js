@@ -1,5 +1,5 @@
 /**
- * Butterfly
+ * Tessera
  * galleryGroup and gallery
  * {% galleryGroup [name] [descr] [url] [img] %}
  *

@@ -1,5 +1,5 @@
 /**
- * Butterfly
+ * Tessera
  * mermaid
  * https://github.com/mermaid-js/mermaid
  */
