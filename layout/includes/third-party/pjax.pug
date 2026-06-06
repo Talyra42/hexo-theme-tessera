@@ -43,10 +43,6 @@ script.
       btf.removeGlobalFnEvent('pjaxSendOnce')
       btf.removeGlobalFnEvent('themeChange')
 
-      // reset readmode
-      const $bodyClassList = document.body.classList
-      if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
-
       triggerPjaxFn(window.globalFn.pjaxSend)
     })
 

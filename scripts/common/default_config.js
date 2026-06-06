@@ -215,7 +215,6 @@ module.exports = {
     msgToTraditionalChinese: '繁',
     msgToSimplifiedChinese: '簡'
   },
-  readmode: true,
   darkmode: {
     enable: true,
     button: true,

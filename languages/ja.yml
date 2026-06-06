@@ -95,7 +95,6 @@ donate: 寄付
 share: 共有
 
 rightside:
-  readmode_title: 読書モード
   translate_title: 簡体字と繁体字の切り替え
   night_mode_title: ライトモード/ダークモード切り替え
   back_to_top: トップに戻る

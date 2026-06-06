@@ -95,7 +95,6 @@ donate: 후원
 share: 공유
 
 rightside:
-  readmode_title: 읽기 모드
   translate_title: 번체와 간체 전환
   night_mode_title: 라이트/다크 모드 전환
   back_to_top: 맨 위로

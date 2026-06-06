@@ -644,23 +644,6 @@ document.addEventListener('DOMContentLoaded', () => {
    * Rightside
    */
   const rightSideFn = {
-    readmode: () => { // read mode
-      const $body = document.body
-      const newEle = document.createElement('button')
-
-      const exitReadMode = () => {
-        $body.classList.remove('read-mode')
-        newEle.remove()
-        newEle.removeEventListener('click', exitReadMode)
-      }
-
-      $body.classList.add('read-mode')
-      newEle.type = 'button'
-      newEle.className = 'exit-readmode'
-      newEle.innerHTML = '<i class="fas fa-sign-out-alt"></i>'
-      newEle.addEventListener('click', exitReadMode)
-      $body.appendChild(newEle)
-    },
     darkmode: () => { // switch between light and dark mode
       const willChangeMode = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
       if (willChangeMode === 'dark') {

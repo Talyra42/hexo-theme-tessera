@@ -351,9 +351,6 @@ translate:
   # The text of the button when the language is Traditional Chinese
   msgToSimplifiedChinese: '簡'
 
-# Read Mode
-readmode: true
-
 # Dark Mode
 darkmode:
   enable: true
@@ -372,11 +369,11 @@ darkmode:
 rightside_scroll_percent: false
 
 # Don't modify the following settings unless you know how they work
-# Choose: readmode,translate,darkmode,hideAside,toc,chat,comment
+# Choose: translate,darkmode,hideAside,toc,chat,comment
 # Don't repeat the same value
 rightside_item_order:
   enable: false
-  # Default: readmode,translate,darkmode,hideAside
+  # Default: translate,darkmode,hideAside
   hide:
   # Default: toc,chat,comment
   show:

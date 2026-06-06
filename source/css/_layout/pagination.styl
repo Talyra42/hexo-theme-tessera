@@ -5,8 +5,8 @@
 
   .page-number
     &.current
-      background: $theme-paginator-color
-      color: var(--white)
+      background: alpha($theme-color, .85)
+      color: #fff
 
   .full-width
     width: 100% !important
@@ -51,8 +51,8 @@
       border-radius: 12px
 
       &:hover
-        background: var(--btn-hover-color)
-        color: var(--btn-color)
+        background: alpha($theme-color, .2)
+        color: $theme-color
 
 #archive
   .pagination
