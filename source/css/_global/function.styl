@@ -22,12 +22,15 @@ addBorderRadius(x = 6, hide = false)
     if hide
       overflow: hidden
 
-// card hover
+// card hover —— 玻璃拟态卡片
 .cardHover
   background: var(--card-bg)
   box-shadow: var(--card-box-shadow)
+  backdrop-filter: saturate(160%) blur(var(--glass-blur))
+  -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur))
+  border: 1px solid var(--glass-border)
+  border-radius: var(--card-radius)
   transition: all .3s
-  addBorderRadius(8)
 
   &:hover
     box-shadow: var(--card-hover-box-shadow)

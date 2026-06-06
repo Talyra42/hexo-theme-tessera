@@ -1,7 +1,11 @@
 :root
   --global-font-size: $font-size
-  --global-bg: $body-bg
+  --global-bg: $aurora-bg-light
   --font-color: $font-black
+  --glass-bg: $glass-bg
+  --glass-border: $glass-border
+  --glass-blur: $glass-blur
+  --card-radius: $card-radius
   --hr-border: lighten($theme-hr-color, 50%)
   --hr-before-color: lighten($theme-hr-color, 30%)
   --search-bg: $search-bg
@@ -14,7 +18,7 @@
   --tab-button-color: $tab-button-color
   --tab-button-hover-bg: $tab-button-hover-bg
   --tab-button-active-bg: $tab-button-active-bg
-  --card-bg: $card-bg
+  --card-bg: $glass-bg
   --card-meta: $theme-meta-color
   --sidebar-bg: $sidebar-background
   --sidebar-menu-bg: $white
@@ -30,8 +34,8 @@
   --blockquote-bg: $blockquote-background-color
   --reward-pop: $reward-pop-up-bg
   --toc-link-color: $toc-link-color
-  --card-box-shadow: 0 3px 8px 6px rgba(7, 17, 27, .05)
-  --card-hover-box-shadow: 0 3px 8px 6px rgba(7, 17, 27, .09)
+  --card-box-shadow: $glass-shadow
+  --card-hover-box-shadow: $glass-shadow-hover
   --pseudo-hover: $pseudo-hover
   --headline-presudo: #a0a0a0
   --scrollbar-color: $scrollbar-color
@@ -103,6 +107,7 @@ body
   overflow-y: scroll
   min-height: 100%
   background: var(--global-bg)
+  background-attachment: fixed
   color: var(--font-color)
   font-size: var(--global-font-size)
   font-family: $font-family

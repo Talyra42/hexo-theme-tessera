@@ -134,8 +134,11 @@
       display: none
 
     #nav
-      background: rgba(255, 255, 255, .8)
-      box-shadow: 0 5px 6px -5px rgba(133, 133, 133, .6)
+      background: rgba(255, 255, 255, .6)
+      box-shadow: 0 5px 18px -8px rgba(31, 38, 135, .3)
+      backdrop-filter: saturate(160%) blur(14px)
+      -webkit-backdrop-filter: saturate(160%) blur(14px)
+      border-bottom: 1px solid rgba(255, 255, 255, .4)
 
       a,
       span.site-page,
@@ -148,11 +151,13 @@
       position: fixed
       top: -60px
       z-index: 91
-      background: rgba(255, 255, 255, .7)
-      box-shadow: 0 5px 6px -5px alpha($grey, .6)
+      background: rgba(255, 255, 255, .6)
+      box-shadow: 0 5px 18px -8px rgba(31, 38, 135, .3)
       transition: transform .2s ease-in-out, opacity .2s ease-in-out
       will-change: transform
-      backdrop-filter: blur(7px)
+      backdrop-filter: saturate(160%) blur(14px)
+      -webkit-backdrop-filter: saturate(160%) blur(14px)
+      border-bottom: 1px solid rgba(255, 255, 255, .4)
 
       #blog-info
         color: var(--font-color)
