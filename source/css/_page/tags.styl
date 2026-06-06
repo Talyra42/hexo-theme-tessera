@@ -3,38 +3,35 @@
     line-height: 2.4
 
     a
-      // 玻璃标签
+      // 多彩半透玻璃标签（颜色由 --c 变量控制，透明度用 color-mix）
       position: relative
       display: inline-flex
       align-items: center
       margin: 6px
       padding: 5px 8px 5px 14px
-      border: 1px solid var(--glass-border)
+      border: 1px solid unquote('color-mix(in srgb, var(--c) 42%, transparent)')
       border-radius: 8px
-      background: var(--glass-bg)
+      background: unquote('color-mix(in srgb, var(--c) 16%, transparent)')
       box-shadow: var(--card-box-shadow)
       backdrop-filter: saturate(180%) blur(12px)
       -webkit-backdrop-filter: saturate(180%) blur(12px)
-      color: var(--font-color)
-      transition: all .3s
+      color: var(--c)
+      font-weight: 500
+      transition: transform .3s, box-shadow .3s, filter .3s
 
       &:hover
-        background: alpha($theme-color, .18)
         box-shadow: var(--card-hover-box-shadow)
-        color: $theme-color
+        filter: brightness(1.05) saturate(1.15)
         transform: translateY(-2px)
 
       .tag-cloud-count
         margin-left: 8px
         padding: 0 7px
         border-radius: 6px
-        background: alpha($theme-color, .15)
-        color: $theme-color
+        background: unquote('color-mix(in srgb, var(--c) 24%, transparent)')
+        color: var(--c)
         font-size: .8em
         font-weight: 600
-
-      &:hover .tag-cloud-count
-        background: alpha($theme-color, .3)
 
       +maxWidth768()
         zoom: .9
@@ -85,7 +82,7 @@
   &-fill
     height: 100%
     border-radius: 999px
-    background: linear-gradient(90deg, alpha($theme-color, .55), alpha($theme-color, .85))
+    background: unquote('linear-gradient(90deg, color-mix(in srgb, var(--c) 55%, transparent), color-mix(in srgb, var(--c) 88%, transparent))')
     transition: width .8s cubic-bezier(.4, 0, .2, 1), filter .3s
 
   &-value
