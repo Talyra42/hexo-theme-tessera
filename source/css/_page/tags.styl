@@ -1,91 +1,98 @@
 .tag-cloud
   &-list
-    animation: tagsFadeIn .6s cubic-bezier(.4, 0, .2, 1)
-
-    &:hover a:not(:hover)
-      opacity: .7
-      transform: scale(.98)
+    line-height: 2.4
 
     a
+      // 玻璃标签
       position: relative
-      display: inline-block
-      margin: 5px
-      padding: 3px 12px
-      line-height: 1.7
-      transition: all .3s cubic-bezier(.4, 0, .2, 1)
-      addBorderRadius(7)
-      overflow: hidden
-      color: white
-      transform: translateY(0) scale(1)
-      will-change: transform, background-color, box-shadow
-
-      &::before
-        position: absolute
-        top: 0
-        left: -100%
-        z-index: -1
-        width: 100%
-        height: 100%
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .1), transparent)
-        content: ''
-        transition: left .6s cubic-bezier(.4, 0, .2, 1)
+      display: inline-flex
+      align-items: center
+      margin: 6px
+      padding: 5px 8px 5px 15px
+      border: 1px solid var(--glass-border)
+      border-radius: 999px
+      background: var(--glass-bg)
+      box-shadow: var(--card-box-shadow)
+      backdrop-filter: saturate(180%) blur(12px)
+      -webkit-backdrop-filter: saturate(180%) blur(12px)
+      color: var(--font-color)
+      transition: all .3s
 
       &:hover
-        background: var(--btn-hover-color) !important
-        box-shadow:
-          0 6px 20px rgba(0, 0, 0, .12),
-          0 4px 8px rgba(0, 0, 0, .08),
-          0 0 0 1px rgba(255, 255, 255, .05)
-        color: var(--btn-color) !important
-        transform: translateY(-2px) scale(1.02)
+        background: alpha($theme-color, .18)
+        box-shadow: var(--card-hover-box-shadow)
+        color: $theme-color
+        transform: translateY(-2px)
 
-        &::before
-          left: 100%
+      .tag-cloud-count
+        margin-left: 8px
+        padding: 0 8px
+        border-radius: 999px
+        background: alpha($theme-color, .15)
+        color: $theme-color
+        font-size: .8em
+        font-weight: 600
 
-      &:active
-        box-shadow:
-          0 3px 8px rgba(0, 0, 0, .15),
-          0 1px 3px rgba(0, 0, 0, .1)
-        transition: all .15s cubic-bezier(.4, 0, .2, 1)
-        transform: translateY(-1px) scale(.98)
+      &:hover .tag-cloud-count
+        background: alpha($theme-color, .3)
 
       +maxWidth768()
-        zoom: .85
+        zoom: .9
 
-        &:hover
-          transform: translateY(-1px) scale(1.01)
-
-        &:active
-          transform: translateY(0) scale(.99)
-
-        &::before
-          display: none
+// 标签使用统计（纯 CSS 柱状图）
+.tag-chart
+  margin: 44px auto 0
+  max-width: 720px
+  text-align: left
 
   &-title
-    font-size: 2.57em
-    animation: titleSlideIn .8s cubic-bezier(.4, 0, .2, 1)
+    margin-bottom: 18px
+    color: var(--text-highlight-color)
+    font-weight: 600
+    font-size: 1.3em
+
+  &-row
+    display: flex
+    align-items: center
+    margin: 12px 0
+    color: var(--font-color)
+
+    &:hover
+      .tag-chart-fill
+        background: alpha($theme-color, .95)
+
+      .tag-chart-name
+        color: $theme-color
+
+  &-name
+    overflow: hidden
+    flex: 0 0 90px
+    text-overflow: ellipsis
+    white-space: nowrap
+    font-size: .92em
+    transition: color .3s
 
     +maxWidth768()
-      font-size: 2em
+      flex-basis: 64px
 
-@keyframes tagsFadeIn
-  from
-    opacity: 0
-    transform: translateY(20px)
+  &-track
+    overflow: hidden
+    flex: 1
+    height: 16px
+    border-radius: 999px
+    background: alpha($theme-color, .1)
 
-  to
-    opacity: 1
-    transform: translateY(0)
+  &-fill
+    height: 100%
+    border-radius: 999px
+    background: linear-gradient(90deg, alpha($theme-color, .55), alpha($theme-color, .85))
+    transition: width .8s cubic-bezier(.4, 0, .2, 1), background .3s
 
-@keyframes titleSlideIn
-  from
-    opacity: 0
-    transform: translateX(-30px)
-
-  to
-    opacity: 1
-    transform: translateX(0)
-
-.page-title
-  & + .tag-cloud-list
-    text-align: left
+  &-value
+    flex: 0 0 auto
+    margin-left: 12px
+    min-width: 24px
+    color: var(--card-meta)
+    text-align: right
+    font-weight: 600
+    font-size: .9em
