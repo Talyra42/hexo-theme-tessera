@@ -11,7 +11,7 @@
 
 nav:
   # Navigation bar logo image
-  logo:
+  logo: /img/tessera-logo.svg
   display_title: true
   display_post_title: true
   # Whether to fix navigation bar
@@ -53,10 +53,10 @@ social:
 # Image Settings
 # --------------------------------------
 
-favicon: /img/favicon.png
+favicon: /img/tessera-logo.svg
 
 avatar:
-  img: /img/tessera-icon.png
+  img: /img/tessera-logo.svg
   effect: false
 
 # Tessera 默认不使用顶部横幅(banner)，文章封面会以磨砂玻璃卡片的形式展示在文章顶部。

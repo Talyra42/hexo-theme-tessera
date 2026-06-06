@@ -3,7 +3,7 @@
 
 module.exports = {
   nav: {
-    logo: null,
+    logo: '/img/tessera-logo.svg',
     display_title: true,
     display_post_title: true,
     fixed: false
@@ -20,9 +20,9 @@ module.exports = {
     fullpage: false
   },
   social: null,
-  favicon: '/img/favicon.png',
+  favicon: '/img/tessera-logo.svg',
   avatar: {
-    img: '/img/tessera-icon.png',
+    img: '/img/tessera-logo.svg',
     effect: false
   },
   disable_top_img: true,

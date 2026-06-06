@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./source/img/tessera-icon.png" width="150" height="150" alt="Tessera Logo" />
+<img src="./source/img/tessera-logo.svg" width="150" height="150" alt="Tessera Logo" />
 
 # hexo-theme-tessera
 
