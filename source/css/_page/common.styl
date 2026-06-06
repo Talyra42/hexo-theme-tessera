@@ -7,8 +7,8 @@
   display: flex
   flex: 1 auto
   margin: 0 auto
-  // 顶部留白为 Dock 让出空间（上下间距一致 ≈ 20px）
-  padding: 96px 15px 40px
+  // 顶部留白为 Dock 让出空间（上下间距一致 ≈ 20px）；底部留白交给 Footer 的 margin
+  padding: 96px 15px 0
   max-width: 1200px
   width: 100%
 
@@ -16,7 +16,7 @@
     flex-direction: column
 
   +maxWidth768()
-    padding: 96px 5px 20px
+    padding: 96px 5px 0
 
   +minWidth2000()
     max-width: 60%

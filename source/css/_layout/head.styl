@@ -297,8 +297,7 @@
   backdrop-filter: saturate(180%) blur(20px)
   -webkit-backdrop-filter: saturate(180%) blur(20px)
   font-size: 1.3em
-  opacity: 0
-  transition: opacity .5s, box-shadow .3s, transform .3s
+  transition: box-shadow .3s, transform .3s
 
   +minWidth2000()
     max-width: calc(60% - 30px)
@@ -313,9 +312,6 @@
   #toggle-menu
     color: var(--font-color)
     text-shadow: none
-
-  &.show
-    opacity: 1
 
   #blog-info
     flex: 1

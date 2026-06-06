@@ -40,12 +40,15 @@
     & > *
       display: inline-block
       margin: 0 6px
-      width: w = 2.5em
-      height: w
-      line-height: w
+      min-width: h = 2.6em
+      height: h
+      padding: 0 16px
+      line-height: h
 
     & > *:not(.space)
+      // 圆角矩形 + 磨砂玻璃（继承 .cardHover）
       @extend .cardHover
+      border-radius: 12px
 
       &:hover
         background: var(--btn-hover-color)
