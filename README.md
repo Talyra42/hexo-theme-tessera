@@ -32,13 +32,33 @@ git clone https://github.com/Talyra42/hexo-theme-tessera.git themes/tessera
 theme: tessera
 ```
 
-2. **安装依赖**：如果你尚未安装 pug 和 stylus 渲染器，请执行：
+2. **安装必装依赖**：Tessera 使用 Pug 模板与 Stylus 样式，必须安装这两个渲染器：
 
 ```bash
 npm install hexo-renderer-pug hexo-renderer-stylus --save
 ```
 
 > 💡 主题的个性化配置建议放在站点根目录的 `_config.tessera.yml` 中，避免直接修改主题目录，方便后续更新。
+
+### 📦 可选插件
+
+以下插件按需安装，对应功能不装则不生效（但不会报错）：
+
+| 功能 | 需要安装的插件 | 说明 |
+| --- | --- | --- |
+| **字数统计 / 阅读时长** | `hexo-wordcount` | 文章元信息中的字数、预计阅读时间，以及侧栏「网站信息」卡的总字数。装好后还需在配置中开启 `wordcount.enable: true` |
+| **本地搜索** | `hexo-generator-searchdb` | 当 `search.use` 设为 `local_search` 时，用于生成搜索数据库（`search.xml`） |
+| **本地化第三方脚本** | `hexo-butterfly-extjs` | 仅当把 `CDN.third_party_provider` 设为 `local`（不走 CDN）时才需要 |
+
+一次性安装常用项：
+
+```bash
+npm install hexo-wordcount hexo-generator-searchdb --save
+```
+
+> ⚠️ 这些是 **Hexo 站点级插件**，必须装在博客根目录，而不是主题目录里 —— Hexo 不会自动安装主题声明的依赖。
+
+> 🔧 改动主题样式（Stylus）后，记得先 `hexo clean` 再 `hexo g/s`：Hexo 只跟踪入口文件的改动时间，改被 `@import` 的分文件不清缓存不会生效。
 
 ## ✨ 主题特色
 
