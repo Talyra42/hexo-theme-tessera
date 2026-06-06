@@ -120,6 +120,42 @@ npm install hexo-wordcount hexo-generator-searchdb --save
 - [x] **Instantpage** - 页面预加载加速
 - [x] **Snackbar** - 优雅的提示消息
 
+## 🛠️ 开发与发布（维护者）
+
+仓库的 `tools/` 目录提供了两个辅助脚本，方便本地开发与版本发布：
+
+### `tools/sync-to-blog.sh` —— 同步到本地博客
+
+把当前主题源码（含未提交的改动）一键同步到本地 Hexo 博客的 `themes/` 目录，无需 `git pull`。脚本会**清空目标主题目录并重新复制**（自动排除 `.git`、`node_modules`、`tools`、`.github`、`.vscode`、`CLAUDE.md`）。
+
+```bash
+# 同步到默认目录（/mnt/CoreData/Document/blog/themes/tessera）
+tools/sync-to-blog.sh
+
+# 指定目标主题目录
+tools/sync-to-blog.sh /path/to/blog/themes/tessera
+
+# 也可用环境变量指定，并跳过删除确认
+TESSERA_BLOG_THEME=/path/to/blog/themes/tessera tools/sync-to-blog.sh -y
+```
+
+> 同步后记得在博客根目录执行 `hexo clean && hexo generate`（或 `hexo server`）。
+
+### `tools/release.sh` —— 发布新版本
+
+更新 `package.json` 版本号、提交、打 tag、推送，并用 [GitHub CLI（`gh`）](https://cli.github.com/) 创建 Release（自动生成更新说明，并附带通过 `git archive` 打包的纯净主题 zip）。
+
+```bash
+tools/release.sh          # 用 package.json 当前版本号发布
+tools/release.sh patch    # 1.0.0 -> 1.0.1
+tools/release.sh minor    # 1.0.0 -> 1.1.0
+tools/release.sh major    # 1.0.0 -> 2.0.0
+tools/release.sh 1.4.2    # 指定明确版本号
+# -d/--draft 创建草稿，-y/--yes 跳过确认
+```
+
+> 前置条件：在 `main` 分支、工作区干净、已安装并登录 `gh`（`gh auth login`）。发布包中的开发文件由 `.gitattributes` 的 `export-ignore` 自动剔除。
+
 ## 💬 获取帮助与支持
 
 - 🐛 **发现问题？** → [GitHub Issues](https://github.com/Talyra42/hexo-theme-tessera/issues)
