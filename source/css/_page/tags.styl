@@ -59,7 +59,7 @@
 
     &:hover
       .tag-chart-fill
-        background: alpha($theme-color, .95)
+        filter: brightness(1.12)
 
       .tag-chart-name
         color: $theme-color
@@ -86,7 +86,7 @@
     height: 100%
     border-radius: 999px
     background: linear-gradient(90deg, alpha($theme-color, .55), alpha($theme-color, .85))
-    transition: width .8s cubic-bezier(.4, 0, .2, 1), background .3s
+    transition: width .8s cubic-bezier(.4, 0, .2, 1), filter .3s
 
   &-value
     flex: 0 0 auto
