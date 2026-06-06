@@ -178,20 +178,11 @@
       transition: all .5s
       transform: none
 
-    & + .layout
-      & > .aside-content > .sticky_layout
-        top: 70px
-        transition: top .5s
-
   &.fixed
     #nav
       position: fixed
 
     & + .layout
-      & > .aside-content > .sticky_layout
-        top: 70px
-        transition: top .5s
-
       #card-toc
         .toc-content
           max-height: calc(100vh - 170px)
