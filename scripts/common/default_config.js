@@ -436,7 +436,7 @@ module.exports = {
     footer: true
   },
   preloader: {
-    enable: false,
+    enable: true,
     source: 1,
     pace_css_url: null
   },
