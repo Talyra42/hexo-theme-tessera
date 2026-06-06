@@ -1,28 +1,34 @@
+// 页脚：与 Dock / 卡片一致的磨砂玻璃浮条
 #footer
   position: relative
-  background-color: $light-blue
-  background-attachment: scroll
-  background-position: bottom
-  background-size: cover
+  margin: 40px auto 24px
+  max-width: 1170px
+  width: calc(100% - 30px)
+  border: 1px solid var(--glass-border)
+  border-radius: var(--card-radius)
+  background: var(--glass-bg)
+  box-shadow: var(--card-box-shadow)
+  backdrop-filter: saturate(180%) blur(20px)
+  -webkit-backdrop-filter: saturate(180%) blur(20px)
+  overflow: hidden
+  color: var(--font-color)
 
-  if hexo-config('footer_img') != false && hexo-config('mask.footer')
-    &:before
-      position: absolute
-      width: 100%
-      height: 100%
-      background-color: var(--mark-bg)
-      content: ''
+  +minWidth2000()
+    max-width: calc(60% - 30px)
+
+  +maxWidth768()
+    width: calc(100% - 20px)
 
   & > *
     position: relative
-    color: var(--light-grey)
+    color: var(--font-color)
 
   a
-    color: var(--light-grey)
+    color: var(--font-color)
     transition: all .3s ease-in-out
 
     &:hover
-      color: $light-blue
+      color: $theme-color
 
   .footer-separator
     margin: 0 4px
@@ -39,14 +45,13 @@
     flex-wrap: wrap
     justify-content: space-between
     margin: 0 auto
-    padding: 40px 60px
-    max-width: 1200px
+    padding: 36px 48px 4px
     width: 100%
     text-align: left
     gap: 13px
 
     +maxWidth768()
-      padding: 30px
+      padding: 28px 24px 0
       gap: 10px
 
     .footer-flex-items
@@ -70,18 +75,20 @@
       white-space: nowrap
 
   .footer-other
-    padding: 40px 20px
+    padding: 22px 20px
     width: 100%
+    color: var(--card-meta)
     text-align: center
+    font-size: .9em
+
+    a
+      color: var(--card-meta)
+
+      &:hover
+        color: $theme-color
 
     if hexo-config('footer.nav')
-      padding: 10px 8px
-      background-color: rgba(0, 0, 0, .1)
-
-      .copyright,
-      .framework-info,
-      .footer_custom_text
-        font-size: .9em
+      border-top: 1px solid var(--glass-border)
     else
       .framework-info
         display: block
