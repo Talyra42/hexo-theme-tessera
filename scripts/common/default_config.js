@@ -25,7 +25,7 @@ module.exports = {
     img: '/img/tessera-icon.png',
     effect: false
   },
-  disable_top_img: false,
+  disable_top_img: true,
   default_top_img: null,
   index_img: false,
   archive_img: null,

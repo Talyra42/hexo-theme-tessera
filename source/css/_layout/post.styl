@@ -156,6 +156,52 @@ beautify()
       &.post-content
         beautify()
 
+// 文章卡片：顶部 hero 卡（封面图 + 标题 + 元信息）+ 正文卡
+#post
+  &.nc
+    align-self: flex-start
+
+  .post-top
+    @extend .cardHover
+    overflow: hidden
+    margin-bottom: 20px
+
+    .post-cover
+      img
+        display: block
+        width: 100%
+        height: 360px
+        object-fit: cover
+
+        +maxWidth768()
+          height: 200px
+
+    #post-info
+      padding: 28px 40px
+
+      +maxWidth768()
+        padding: 22px 20px
+
+      .post-title
+        margin-bottom: 8px
+        color: var(--text-highlight-color)
+        font-weight: bold
+        font-size: 2.2em
+
+        +maxWidth768()
+          font-size: 1.72em
+
+      #post-meta,
+      #post-meta a
+        color: var(--card-meta)
+
+  .post-body
+    @extend .cardHover
+    padding: 50px 40px
+
+    +maxWidth768()
+      padding: 36px 14px
+
 #post
   .tag_share
     &:after

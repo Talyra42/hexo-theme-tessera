@@ -17,7 +17,12 @@
     padding-left: 5px
     width: $sidebar-width
     height: 100%
-    background: var(--sidebar-bg)
+    background: var(--glass-bg)
+    backdrop-filter: saturate(180%) blur(20px)
+    -webkit-backdrop-filter: saturate(180%) blur(20px)
+    border-left: 1px solid var(--glass-border)
+    border-radius: 18px 0 0 18px
+    box-shadow: var(--card-box-shadow)
     transition: all .5s
 
     &.open
@@ -35,8 +40,7 @@
     .menus_items
       margin: 20px
       padding: 15px
-      background: var(--sidebar-menu-bg)
-      box-shadow: 0 0 1px 1px rgba(7, 17, 27, .05)
+      background: transparent
       addBorderRadius(10)
 
       .site-page

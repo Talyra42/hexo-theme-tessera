@@ -126,8 +126,8 @@
           max-width: 70%
 
   &.not-top-img
-    margin-bottom: 10px
-    height: 70px
+    margin-bottom: 0
+    height: 0
     background: 0
 
     .title-seo
@@ -136,7 +136,7 @@
   &.nav-fixed
     #nav
       position: fixed
-      top: 12px
+      top: 20px
       z-index: 91
       background: var(--glass-bg)
       box-shadow: var(--card-box-shadow)
@@ -279,7 +279,7 @@
 #nav
   // —— Dock 栏：圆角磨砂玻璃 + 常驻显示 + 与正文等宽
   position: fixed
-  top: 12px
+  top: 20px
   right: 0
   left: 0
   z-index: 91
@@ -288,7 +288,7 @@
   margin: 0 auto
   padding: 0 24px
   width: calc(100% - 30px)
-  max-width: 1200px
+  max-width: 1170px
   height: 56px
   border: 1px solid var(--glass-border)
   border-radius: 18px
@@ -301,7 +301,7 @@
   transition: opacity .5s, box-shadow .3s, transform .3s
 
   +minWidth2000()
-    max-width: 60%
+    max-width: calc(60% - 30px)
 
   +maxWidth768()
     padding: 0 16px
