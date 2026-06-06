@@ -27,7 +27,7 @@ module.exports = {
   },
   disable_top_img: false,
   default_top_img: null,
-  index_img: null,
+  index_img: false,
   archive_img: null,
   tag_img: null,
   tag_per_img: null,

@@ -127,37 +127,22 @@
 
   &.not-top-img
     margin-bottom: 10px
-    height: 60px
+    height: 70px
     background: 0
 
     .title-seo
       display: none
 
-    #nav
-      background: rgba(255, 255, 255, .6)
-      box-shadow: 0 5px 18px -8px rgba(31, 38, 135, .3)
-      backdrop-filter: saturate(160%) blur(14px)
-      -webkit-backdrop-filter: saturate(160%) blur(14px)
-      border-bottom: 1px solid rgba(255, 255, 255, .4)
-
-      a,
-      span.site-page,
-      .site-name
-        color: var(--font-color)
-        text-shadow: none
-
   &.nav-fixed
     #nav
       position: fixed
-      top: -60px
+      top: 12px
       z-index: 91
-      background: rgba(255, 255, 255, .6)
-      box-shadow: 0 5px 18px -8px rgba(31, 38, 135, .3)
-      transition: transform .2s ease-in-out, opacity .2s ease-in-out
-      will-change: transform
-      backdrop-filter: saturate(160%) blur(14px)
-      -webkit-backdrop-filter: saturate(160%) blur(14px)
-      border-bottom: 1px solid rgba(255, 255, 255, .4)
+      background: var(--glass-bg)
+      box-shadow: var(--card-box-shadow)
+      transition: all .3s
+      backdrop-filter: saturate(180%) blur(20px)
+      -webkit-backdrop-filter: saturate(180%) blur(20px)
 
       #blog-info
         color: var(--font-color)
@@ -191,7 +176,7 @@
   &.nav-visible:not(.fixed)
     #nav
       transition: all .5s
-      transform: translate3d(0, 100%, 0)
+      transform: none
 
     & + .layout
       & > .aside-content > .sticky_layout
@@ -292,27 +277,49 @@
         display: none
 
 #nav
-  position: absolute
-  top: 0
-  z-index: 90
+  // —— Dock 栏：圆角磨砂玻璃 + 常驻显示 + 与正文等宽
+  position: fixed
+  top: 12px
+  right: 0
+  left: 0
+  z-index: 91
   display: flex
   align-items: center
-  padding: 0 36px
-  width: 100%
-  height: 60px
+  margin: 0 auto
+  padding: 0 24px
+  width: calc(100% - 30px)
+  max-width: 1200px
+  height: 56px
+  border: 1px solid var(--glass-border)
+  border-radius: 18px
+  background: var(--glass-bg)
+  box-shadow: var(--card-box-shadow)
+  backdrop-filter: saturate(180%) blur(20px)
+  -webkit-backdrop-filter: saturate(180%) blur(20px)
   font-size: 1.3em
   opacity: 0
-  transition: all .5s
+  transition: opacity .5s, box-shadow .3s, transform .3s
+
+  +minWidth2000()
+    max-width: 60%
 
   +maxWidth768()
     padding: 0 16px
+    width: calc(100% - 20px)
+
+  a,
+  span.site-page,
+  .site-name,
+  #toggle-menu
+    color: var(--font-color)
+    text-shadow: none
 
   &.show
     opacity: 1
 
   #blog-info
     flex: 1
-    color: var(--light-grey)
+    color: var(--font-color)
     @extend .limit-one-line
 
     .site-icon

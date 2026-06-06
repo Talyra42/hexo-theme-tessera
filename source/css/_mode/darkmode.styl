@@ -117,16 +117,6 @@ if hexo-config('darkmode.enable') || hexo-config('display_mode') == 'dark'
         background-color: #525252
         color: #e2f1ff
 
-    // 頭部
-    #page-header
-      &.nav-fixed > #nav,
-      &.not-top-img > #nav
-        background: alpha(#121212, .55)
-        box-shadow: 0 5px 18px -8px rgba(0, 0, 0, .5)
-        backdrop-filter: saturate(160%) blur(14px)
-        -webkit-backdrop-filter: saturate(160%) blur(14px)
-        border-bottom: 1px solid alpha(#FFFFFF, .08)
-
     #post-comment
       .comment-switch
         if hexo-config('comments.text')
