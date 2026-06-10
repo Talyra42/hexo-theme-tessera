@@ -16,12 +16,12 @@ There is **no build/lint/test step in this repo** — the `package.json` `test` 
 
 This repo is not runnable on its own; it must be loaded by a Hexo blog under `themes/<name>`.
 
-- A local test blog exists at **`/mnt/CoreData/Document/blog`**, with the theme under `themes/tessera`. The repo's own remote is the source of truth.
-- **Sync the working tree into the blog with `tools/sync-to-blog.sh`** (the preferred way — replaces the old `git -C themes/tessera pull` flow). It wipes the target theme dir and copies the current repo into it (excluding `.git`, `node_modules`, `tools`, `.github`, `.vscode`, `CLAUDE.md`), so even *uncommitted* changes show up. Target resolves from `$1` → `$TESSERA_BLOG_THEME` → default `/mnt/CoreData/Document/blog/themes/tessera`; pass `-y` to skip the delete confirmation.
+- The theme is verified by loading it into a local Hexo test blog under `themes/tessera`. The repo's own remote is the source of truth.
+- **Sync the working tree into the blog with `tools/sync-to-blog.sh`** (the preferred way — replaces the old `git -C themes/tessera pull` flow). It wipes the target theme dir and copies the current repo into it (excluding `.git`, `node_modules`, `tools`, `.github`, `.vscode`, `CLAUDE.md`), so even *uncommitted* changes show up. Target resolves from `$1` → `$TESSERA_BLOG_THEME` → the `DEFAULT_TARGET` set at the top of the script; pass `-y` to skip the delete confirmation.
 - **Publish a release with `tools/release.sh [patch|minor|major|X.Y.Z]`** — bumps `package.json`, commits `chore(release): vX.Y.Z`, tags, pushes, builds a clean theme zip via `git archive`, and creates the GitHub Release with `gh`. `.gitattributes` `export-ignore` keeps dev files out of the zip. Needs `gh auth login`.
 - All build commands run **in the blog root, not in this repo**:
   ```bash
-  cd /mnt/CoreData/Document/blog
+  cd <blog-root>
   pnpm exec hexo clean && pnpm exec hexo generate   # or: pnpm server
   ```
 - **Always `hexo clean` after editing Stylus.** Hexo only tracks the entry file `source/css/index.styl`'s mtime; edits to `@import`-ed partials won't recompile without a clean. This is a recurring trap.

@@ -129,7 +129,7 @@ npm install hexo-wordcount hexo-generator-searchdb --save
 把当前主题源码（含未提交的改动）一键同步到本地 Hexo 博客的 `themes/` 目录，无需 `git pull`。脚本会**清空目标主题目录并重新复制**（自动排除 `.git`、`node_modules`、`tools`、`.github`、`.vscode`、`CLAUDE.md`）。
 
 ```bash
-# 同步到默认目录（/mnt/CoreData/Document/blog/themes/tessera）
+# 同步到默认目录（见脚本顶部 DEFAULT_TARGET）
 tools/sync-to-blog.sh
 
 # 指定目标主题目录

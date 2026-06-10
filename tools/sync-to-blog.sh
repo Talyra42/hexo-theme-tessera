@@ -11,7 +11,7 @@
 # 目标目录解析顺序（前者优先）：
 #   1. 命令行第一个参数
 #   2. 环境变量 TESSERA_BLOG_THEME
-#   3. 默认值 /mnt/CoreData/Document/blog/themes/tessera
+#   3. 默认值 /mnt/CoreData/CodeSpace/Talyra42/tessera-blog/themes/tessera
 #
 # 选项：
 #   -y, --yes     跳过删除确认
@@ -20,7 +20,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-DEFAULT_TARGET="/mnt/CoreData/Document/blog/themes/tessera"
+DEFAULT_TARGET="/mnt/CoreData/CodeSpace/Talyra42/tessera-blog/themes/tessera"
 
 ASSUME_YES=0
 TARGET=""
