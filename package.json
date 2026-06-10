@@ -1,7 +1,7 @@
 {
   "name": "hexo-theme-tessera",
   "version": "1.0.0",
-  "description": "A Simple and Card UI Design theme for Hexo",
+  "description": "A glassmorphism Hexo theme — frosted translucent cards over an aurora gradient background, with a floating rounded dock navbar.",
   "main": "package.json",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,17 +9,22 @@
   "keywords": [
     "hexo",
     "theme",
+    "hexo-theme",
     "tessera",
-    "Card UI Design",
+    "glassmorphism",
+    "aurora",
+    "dock",
+    "dark-mode",
+    "responsive",
     "Talyra42",
     "hexo-theme-tessera"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Talyra42/hexo-theme-tessera.git"
+    "url": "https://github.com/LumiDesk/hexo-theme-tessera.git"
   },
   "bugs": {
-    "url": "https://github.com/Talyra42/hexo-theme-tessera/issues"
+    "url": "https://github.com/LumiDesk/hexo-theme-tessera/issues"
   },
   "dependencies": {
     "hexo-renderer-pug": "^3.0.0",
@@ -27,7 +32,7 @@
     "hexo-util": "^4.0.0",
     "moment-timezone": "^0.6.0"
   },
-  "homepage": "https://github.com/Talyra42/hexo-theme-tessera",
+  "homepage": "https://github.com/LumiDesk/hexo-theme-tessera",
   "author": "Talyra42",
   "license": "AGPL-3.0-only"
 }
