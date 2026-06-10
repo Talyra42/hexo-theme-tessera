@@ -1,0 +1,134 @@
+// 关于页 —— 开放式个人主页布局（直接渲染，无外层/嵌套卡片，无出现动画）
+.about-page
+  padding: 8px 12px 0
+
+  +maxWidth768()
+    padding: 0
+
+// 顶部个人信息区
+.about-profile
+  display: flex
+  flex-direction: column
+  align-items: center
+  margin-bottom: 8px
+  padding: 20px 0 30px
+  text-align: center
+
+  .about-avatar
+    width: 128px
+    height: 128px
+    margin-bottom: 20px
+    padding: 5px
+    border-radius: 50%
+    background: linear-gradient(135deg, $bright-blue, $strong-cyan 45%, #6F42C1)
+
+    img
+      width: 100%
+      height: 100%
+      border-radius: 50%
+      object-fit: cover
+
+  .about-tip
+    margin-bottom: 6px
+    color: var(--card-meta)
+    font-size: .9em
+    letter-spacing: .06em
+
+  .about-name
+    margin: 0 0 10px
+    color: var(--text-highlight-color)
+    font-size: 2.5em
+    font-weight: 800
+    line-height: 1.15
+
+    +maxWidth768()
+      font-size: 2em
+
+  .about-bio
+    max-width: 560px
+    margin: 0 auto 20px
+    color: var(--font-color)
+    font-size: 1.05em
+    line-height: 1.8
+
+  .about-skills
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    gap: 8px
+    margin-bottom: 22px
+
+    span
+      padding: 4px 15px
+      border: 1px solid var(--glass-border)
+      border-radius: 999px
+      background: var(--glass-bg)
+      color: var(--text-highlight-color)
+      font-size: .82em
+      font-weight: 500
+      backdrop-filter: saturate(160%) blur(8px)
+      -webkit-backdrop-filter: saturate(160%) blur(8px)
+      transition: transform .3s, color .3s, border-color .3s
+
+      &:hover
+        border-color: $theme-color
+        color: $theme-color
+        transform: translateY(-2px)
+
+  .about-social
+    display: flex
+    justify-content: center
+    gap: 20px
+    font-size: 1.5em
+
+    a
+      color: var(--card-meta)
+      transition: transform .3s, color .3s
+
+      &:hover
+        color: $theme-color
+        transform: translateY(-3px) scale(1.12)
+
+// 数据统计 —— 无边框，竖线分隔（非卡片）
+.about-stats
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  margin: 0 auto 28px
+
+  .about-stat-item
+    display: flex
+    flex-direction: column
+    align-items: center
+    padding: 4px 34px
+
+    +maxWidth768()
+      padding: 4px 22px
+
+    &:not(:last-child)
+      border-right: 1px solid var(--glass-border)
+
+  .about-stat-value
+    color: var(--text-highlight-color)
+    font-size: 1.8em
+    font-weight: 700
+    line-height: 1.1
+
+  .about-stat-name
+    margin-top: 2px
+    color: var(--card-meta)
+    font-size: .85em
+
+// 正文区 —— 居中阅读宽度，顶部一道渐变细线作分隔
+.about-content
+  max-width: 760px
+  margin: 0 auto
+
+  &:before
+    display: block
+    width: 56px
+    height: 3px
+    margin: 0 auto 30px
+    border-radius: 999px
+    background: linear-gradient(90deg, $bright-blue, $strong-cyan)
+    content: ''

@@ -1,22 +1,9 @@
 -
   const tagPalette = ['#49B1F5', '#00C4B6', '#6F42C1', '#F0AD4E', '#FF7242', '#5CB85C', '#FF69B4', '#428BCA', '#E83E8C', '#20C997']
   const tagsArr = site.tags.toArray().sort((a, b) => b.length - a.length)
-  const maxCount = tagsArr.length ? tagsArr[0].length : 1
-  const chartTags = tagsArr.slice(0, 12)
 
 .tag-cloud-list.text-center
   each tag, i in tagsArr
     a.tag-cloud-item(href=url_for(tag.path) title=`${tag.name} · ${tag.length}` style=`--c:${tagPalette[i % tagPalette.length]}`)
       span.tag-cloud-name= tag.name
       span.tag-cloud-count= tag.length
-
-if chartTags.length
-  .tag-chart
-    .tag-chart-title= _p('page.tag') + ' · Top ' + chartTags.length
-    each tag, i in chartTags
-      - const percent = Math.max(6, Math.round(tag.length / maxCount * 100))
-      a.tag-chart-row(href=url_for(tag.path) title=`${tag.name} · ${tag.length}`)
-        span.tag-chart-name= tag.name
-        .tag-chart-track
-          .tag-chart-fill(style=`--c:${tagPalette[i % tagPalette.length]};width:${percent}%`)
-        span.tag-chart-value= tag.length

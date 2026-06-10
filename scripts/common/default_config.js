@@ -548,7 +548,7 @@ module.exports = {
     light_bg_offset: 0
   },
   pjax: {
-    enable: false,
+    enable: true,
     exclude: null
   },
   aplayerInject: {

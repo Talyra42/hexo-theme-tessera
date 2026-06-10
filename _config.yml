@@ -956,8 +956,9 @@ note:
 # --------------------------------------
 
 # https://github.com/MoOx/pjax
+# 默认开启：跳页时只替换正文、不整页重载，页面切换更流畅且背景不重绘
 pjax:
-  enable: false
+  enable: true
   # Exclude the specified pages from pjax, such as '/music/'
   exclude:
     # - /xxxxxx/

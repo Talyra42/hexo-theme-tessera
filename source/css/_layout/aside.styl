@@ -149,6 +149,24 @@
       &.no-cover
         min-height: 4.4em
 
+  // 最新文章 —— 列表项悬浮卡片高亮（与下方分类列表保持一致的交互）
+  .card-recent-post .aside-list > .aside-list-item
+    margin: 0 -10px
+    padding: 8px 10px
+    border-radius: 10px
+    transition: background-color .3s ease, transform .3s ease
+
+    &:hover
+      background-color: var(--text-bg-hover)
+      transform: translateX(3px)
+
+      .content > .title
+        color: var(--white)
+
+      .content > time,
+      .content > .name
+        color: alpha(#FFFFFF, .85)
+
   .card-archives ul.card-archive-list,
   .card-categories ul.card-category-list
     margin: 0

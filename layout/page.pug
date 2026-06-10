@@ -1,7 +1,7 @@
 extends includes/layout.pug
 
 block content
-  - const noCardLayout = ['shuoshuo', '404'].includes(page.type) ? 'nc' : ''
+  - const noCardLayout = ['shuoshuo', '404', 'about'].includes(page.type) ? 'nc' : ''
   - var commentsJsLoad = false
 
   mixin commentLoad
@@ -10,7 +10,7 @@ block content
       !=partial('includes/third-party/comments/index', {}, {cache: true})
 
   #page(class=noCardLayout)
-    if top_img === false && page.title
+    if top_img === false && page.title && page.type !== 'about'
       .page-title= page.title
 
     case page.type

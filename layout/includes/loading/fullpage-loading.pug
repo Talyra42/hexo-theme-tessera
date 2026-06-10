@@ -23,8 +23,9 @@ script.
     if (document.readyState === 'complete') {
       preloader.endLoading()
     } else {
+      // 等整页资源（含背景、图片）加载完成再撤下遮罩，
+      // 避免在 DOMContentLoaded 时过早隐藏、导致背景在无遮罩状态下突现
       window.addEventListener('load', preloader.endLoading)
-      document.addEventListener('DOMContentLoaded', preloader.endLoading)
       // Add timeout protection: force end after 7 seconds
       setTimeout(preloader.endLoading, 7000)
     }

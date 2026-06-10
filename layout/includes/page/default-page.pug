@@ -1,2 +1,50 @@
-#article-container.container
-  != page.content
+-
+  // 关于页：开放式个人主页布局（直接渲染，无外层/嵌套卡片）。其余普通页保持原样。
+  const isAbout = page.type === 'about'
+  const aboutCfg = page.about || {}
+  const aboutSkills = Array.isArray(aboutCfg.skills) ? aboutCfg.skills : []
+  const aboutStats = Array.isArray(aboutCfg.stats) ? aboutCfg.stats : []
+  const aboutSocial = aboutCfg.social && typeof aboutCfg.social === 'object' ? aboutCfg.social : null
+  const hasProfile = isAbout && (aboutCfg.avatar || aboutCfg.name || aboutCfg.description || aboutSkills.length)
+
+if isAbout
+  .about-page
+    if hasProfile
+      .about-profile
+        if aboutCfg.avatar
+          .about-avatar
+            img(src=url_for(aboutCfg.avatar) alt=(aboutCfg.name || config.author) onerror=`this.onerror=null;this.src='${url_for(theme.error_img.flink)}'`)
+        if aboutCfg.tip
+          .about-tip= aboutCfg.tip
+        if aboutCfg.name
+          h1.about-name= aboutCfg.name
+        if aboutCfg.description
+          .about-bio= aboutCfg.description
+        if aboutSkills.length
+          .about-skills
+            each skill in aboutSkills
+              span= skill
+        if aboutSocial
+          .about-social
+            each link, name in aboutSocial
+              - const [href, icon] = String(link).split('||').map(s => s.trim())
+              a(href=href target='_blank' rel='noopener' title=name)
+                if icon
+                  i(class=icon)
+                else
+                  span= name
+
+    if aboutStats.length
+      .about-stats
+        each stat in aboutStats
+          - const [statName, statValue] = String(stat).split('||').map(s => s.trim())
+          .about-stat-item
+            span.about-stat-value= statValue || statName
+            if statValue
+              span.about-stat-name= statName
+
+    #article-container.container.about-content
+      != page.content
+else
+  #article-container.container
+    != page.content

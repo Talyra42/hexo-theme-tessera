@@ -68,6 +68,9 @@ npm install hexo-wordcount hexo-generator-searchdb --save
 - [x] **响应式设计** - 完美适配各种屏幕尺寸
 - [x] **双栏布局** - 优化的阅读体验
 - [x] **深色模式** - 护眼的夜间模式
+- [x] **液态玻璃导航** - 顶部 Dock 菜单/搜索为胶囊药丸样式，悬停呈现液态玻璃磨砂高光效果
+- [x] **标题滚动切换** - 下滑时博客标题与文章标题垂直滚动过渡（悬停反向显示「返回首页」）
+- [x] **开放式关于页** - 关于页采用无卡片的开放式个人主页布局，支持头像、技能、社交、数据等展示（见下）
 
 ### 📝 内容功能
 - [x] **多级菜单** - 支持二级导航菜单
@@ -119,6 +122,40 @@ npm install hexo-wordcount hexo-generator-searchdb --save
 - [x] **系列文章** - 系列文章组织功能
 - [x] **Instantpage** - 页面预加载加速
 - [x] **Snackbar** - 优雅的提示消息
+
+## 🧩 页面进阶用法
+
+### 关于页
+
+把页面的 `type` 设为 `about`，即采用**开放式个人主页布局**：自动隐去外层卡片，正文上方渲染一个开放式的个人信息区（头像光环、名字、技能标签、社交图标）与无边框数据栏，正文则以居中阅读宽度直接呈现 —— 没有「卡片套卡片」，也没有出现动画。建议同时设置 `aside: false` 隐藏右侧栏，让关于内容独占整页。
+
+`about:` 各字段均为可选，按需填写；正文部分照常用 Markdown 书写。
+
+```yaml
+---
+title: 关于
+date: 2026-01-01
+type: about         # 关键：启用关于页布局
+aside: false        # 隐藏右侧栏，关于内容独占整页
+about:
+  avatar: /img/avatar.png
+  tip: 你好，很高兴遇见你 👋
+  name: Talyra42
+  description: 学习者 · 思考者 · 折腾爱好者
+  skills: [JavaScript, Node.js, Hexo, Stylus, 设计]
+  # social：键为标题，值为「链接 || FontAwesome 图标类」
+  social:
+    GitHub: https://github.com/xxx || fab fa-github
+    Email: mailto:you@example.com || fas fa-envelope
+  # stats：「名称 || 数值」，渲染为无边框数据栏
+  stats:
+    - 建站于 || 2026
+    - 状态 || 持续更新
+    - 坐标 || 中国
+---
+
+这里继续写普通 Markdown 正文……
+```
 
 ## 🛠️ 开发与发布（维护者）
 
