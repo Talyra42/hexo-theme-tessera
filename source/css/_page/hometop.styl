@@ -80,18 +80,21 @@ if hexo-config('home_top') && hexo-config('home_top.enable')
 
     .htop-iconrow
       overflow: hidden
-      margin: 7px 0
+      margin: 13px 0
 
+    // 动画放在单一轨道上（每行仅 1 个合成层）：避免多份图标各自按设备像素取整
+    // 而在接缝处产生 1px 抖动（闪烁）。translate3d + backface 稳定 GPU 合成
     .htop-icontrack
       display: flex
       width: max-content
+      animation: htop-marquee 28s linear infinite
+      animation-delay: -14s // 负延迟：进场即处于播放中途，不暴露起始帧
+      backface-visibility: hidden
+      will-change: transform
 
     .htop-iconset
       display: flex
       flex-shrink: 0
-      animation: htop-marquee 28s linear infinite
-      animation-delay: -14s // 负延迟：进场即处于播放中途，不暴露起始帧
-      will-change: transform
 
     // 反向行：不用 animation-direction（迭代边界语义不可靠），
     // 而是整行镜像 + 图标再翻回 -- 与第一行跑同一个正向动画，行为逐像素等价
@@ -101,7 +104,7 @@ if hexo-config('home_top') && hexo-config('home_top.enable')
     .htop-reverse .htop-tile
       transform: scaleX(-1)
 
-    .htop-reverse .htop-iconset
+    .htop-reverse .htop-icontrack
       animation-delay: -7s // 与第一行错相位，避免两行同步感
 
     .htop-tile
@@ -254,7 +257,7 @@ if hexo-config('home_top') && hexo-config('home_top.enable')
 
   @keyframes htop-marquee
     from
-      transform: translateX(0)
+      transform: translate3d(0, 0, 0)
 
     to
-      transform: translateX(-100%)
+      transform: translate3d(-50%, 0, 0)

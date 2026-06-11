@@ -16,11 +16,11 @@
         if ht.siteText
           .htop-site= ht.siteText
       if icons.length
-        //- 双组结构：两组相同图标各自位移 -100%，循环点两组内容重合，结构上保证无缝
+        //- 轨道内放 2 份相同图标，整条轨道位移 -50%（恰好一份宽），循环点两份重合，结构上保证无缝
         .htop-iconwall(aria-hidden='true')
           .htop-iconrow
             .htop-icontrack
-              each n in [0, 1, 2]
+              each n in [0, 1]
                 .htop-iconset
                   each it in row1
                     .htop-tile(style=`background:${it.color}`)
@@ -28,7 +28,7 @@
           if row2.length
             .htop-iconrow.htop-reverse
               .htop-icontrack
-                each n in [0, 1, 2]
+                each n in [0, 1]
                   .htop-iconset
                     each it in row2
                       .htop-tile(style=`background:${it.color}`)
