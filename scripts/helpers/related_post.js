@@ -69,7 +69,7 @@ hexo.extend.helper.register('related_posts', function (currentPost) {
     const className = postDesc ? 'pagination-related' : 'pagination-related no-desc'
     result += `<a class="${className}" href="${url_for(path)}" title="${title}">`
     if (cover_type === 'img') {
-      result += `<img class="cover" src="${url_for(cover)}" alt="cover">`
+      result += `<img class="cover" no-lazyload src="${url_for(cover)}" alt="cover">`
     } else {
       result += `<div class="cover" style="background: ${cover}"></div>`
     }

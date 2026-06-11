@@ -15,7 +15,7 @@ if theme.aside.card_recent_post.enable
           if post_cover && theme.cover.aside_enable
             a.thumbnail(href=url_for(link) title=title)
               if article.cover_type === 'img'
-                img(src=url_for(post_cover) onerror=`this.onerror=null;this.src='${url_for(theme.error_img.post_page)}'` alt=title)
+                img(no-lazyload src=url_for(post_cover) onerror=`this.onerror=null;this.src='${url_for(theme.error_img.post_page)}'` alt=title)
               else
                 div(style=`background: ${post_cover}`)
           .content

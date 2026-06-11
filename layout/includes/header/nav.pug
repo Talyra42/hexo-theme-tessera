@@ -2,7 +2,7 @@ nav#nav
   span#blog-info
     a.nav-site-title(href=url_for('/'))
       if theme.nav.logo
-        img.site-icon(src=url_for(theme.nav.logo) alt='Logo')
+        img.site-icon(no-lazyload src=url_for(theme.nav.logo) alt='Logo')
       if theme.nav.display_title
         span.site-name=config.title
     if globalPageType === 'post' && theme.nav.display_post_title

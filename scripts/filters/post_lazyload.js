@@ -11,7 +11,7 @@ const urlFor = require('hexo-util').url_for.bind(hexo)
 const lazyload = htmlContent => {
   if (hexo.theme.config.lazyload.native) {
     // Use more precise replacement: only replace img tags in HTML, not content inside script tags
-    return htmlContent.replace(/(<img(?![^>]*?\bloading=)(?:\s[^>]*?)?>)(?![^<]*<\/script>)/gi, match => {
+    return htmlContent.replace(/(<img(?![^>]*?\bloading=)(?![^>]*?no-lazyload)(?:\s[^>]*?)?>)(?![^<]*<\/script>)/gi, match => {
       return match.replace(/>$/, ' loading=\'lazy\'>')
     })
   }
@@ -20,7 +20,7 @@ const lazyload = htmlContent => {
 
   // Handle src attributes with double quotes, single quotes, or no quotes (unified approach)
   // Matches: src="..." or src='...' or src=... (e.g., after minification by hexo-minify)
-  return htmlContent.replace(/(<img(?![^>]*?\bdata-lazy-src=)(?:\s[^>]*?)?\ssrc=)(?:"([^"]*)"|'([^']*)'|([^\s>]+))(?![^<]*<\/script>)/gi, (match, prefix, srcDoubleQuote, srcSingleQuote, srcNoQuote) => {
+  return htmlContent.replace(/(<img(?![^>]*?\bdata-lazy-src=)(?![^>]*?no-lazyload)(?:\s[^>]*?)?\ssrc=)(?:"([^"]*)"|'([^']*)'|([^\s>]+))(?![^<]*<\/script>)/gi, (match, prefix, srcDoubleQuote, srcSingleQuote, srcNoQuote) => {
     const src = srcDoubleQuote || srcSingleQuote || srcNoQuote
     return `${prefix}"${bg}" data-lazy-src="${src}"`
   })
