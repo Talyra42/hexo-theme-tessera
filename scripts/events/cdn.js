@@ -34,6 +34,11 @@ hexo.extend.filter.register('before_generate', () => {
       file: 'js/bg3d.js',
       version
     },
+    rightmenu: {
+      name: 'hexo-theme-tessera',
+      file: 'js/rightmenu.js',
+      version
+    },
     local_search: {
       name: 'hexo-theme-tessera',
       file: 'js/search/local-search.js',

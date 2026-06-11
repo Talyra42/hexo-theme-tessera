@@ -1,0 +1,86 @@
+// Tessera 右键菜单：玻璃卡片风格，与 Dock / 卡片体系同一套设计令牌
+if hexo-config('rightmenu.enable')
+  #tessera-rightmenu
+    position: fixed
+    z-index: 1100
+    min-width: 200px
+    padding: 8px
+    border: 1px solid var(--glass-border)
+    border-radius: 12px
+    background: var(--card-bg)
+    box-shadow: var(--card-hover-box-shadow)
+    backdrop-filter: saturate(180%) blur(var(--glass-blur))
+    -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur))
+    visibility: hidden
+    opacity: 0
+    transform: scale(.92)
+    transform-origin: top left
+    transition: opacity .18s ease, transform .18s ease, visibility .18s
+    user-select: none
+
+    &.show
+      visibility: visible
+      opacity: 1
+      transform: scale(1)
+
+    button
+      border: none
+      background: none
+      color: var(--font-color)
+      font-size: 14px
+      font-family: inherit
+      cursor: pointer
+
+    .rm-nav
+      display: flex
+      justify-content: space-between
+      gap: 4px
+      margin-bottom: 6px
+      padding-bottom: 8px
+      border-bottom: 1px solid var(--glass-border)
+
+      .rm-nav-btn
+        flex: 1
+        padding: 7px 0
+        border-radius: 8px
+        transition: background .2s ease, color .2s ease
+
+        &:hover
+          background: var(--tessera-primary)
+          color: #fff
+
+    .rm-group
+      display: flex
+      flex-direction: column
+
+      &.rm-ctx:not(:empty)
+        margin-bottom: 6px
+        padding-bottom: 6px
+        border-bottom: 1px solid var(--glass-border)
+
+      .rm-item
+        display: flex
+        align-items: center
+        gap: 10px
+        padding: 8px 10px
+        max-width: 260px
+        border-radius: 8px
+        text-align: left
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        transition: background .2s ease, color .2s ease
+
+        i
+          width: 16px
+          text-align: center
+          font-size: 13px
+
+        &:hover
+          background: var(--tessera-primary)
+          color: #fff
+
+  // 移动端长按体验不佳，直接隐藏（系统菜单照常）
+  +maxWidth768()
+    #tessera-rightmenu
+      display: none !important

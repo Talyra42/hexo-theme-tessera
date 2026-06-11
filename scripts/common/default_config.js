@@ -76,7 +76,7 @@ module.exports = {
     source: false,
     sub: null
   },
-  index_layout: 3,
+  index_layout: 6,
   index_post_content: {
     method: 3,
     length: 500
@@ -480,6 +480,9 @@ module.exports = {
   canvas_fluttering_ribbon: {
     enable: false,
     mobile: false
+  },
+  rightmenu: {
+    enable: true
   },
   bg_3d: {
     enable: true,

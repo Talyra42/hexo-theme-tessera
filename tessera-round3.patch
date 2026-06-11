@@ -1,0 +1,347 @@
+diff --git a/layout/includes/loading/fullpage-loading.pug b/layout/includes/loading/fullpage-loading.pug
+index b8aa4ed..5d5b1fb 100644
+--- a/layout/includes/loading/fullpage-loading.pug
++++ b/layout/includes/loading/fullpage-loading.pug
+@@ -1,231 +1,8 @@
+ #loading-box
+   .loading-stage
+-    canvas#loading-canvas(width='560' height='280' aria-hidden='true')
+-    .loading-bar
+-      .loading-bar-inner#loading-bar-inner
+-
+-//- Tessera 变形粒子加载动画：零依赖软件 3D 渲染
+-//- 700 粒子在「球体 - TESSERA 字样 - 环面结」间循环变形，相变带爆发冲量，鼠标可推开粒子
+-script.
+-  (() => {
+-    const cv = document.getElementById('loading-canvas')
+-    if (!cv) return
+-    const ctx = cv.getContext('2d')
+-    const DPR = Math.min(window.devicePixelRatio || 1, 2)
+-    const W = 560, H = 280
+-    cv.width = W * DPR
+-    cv.height = H * DPR
+-    ctx.scale(DPR, DPR)
+-
+-    const dark = document.documentElement.getAttribute('data-theme') === 'dark'
+-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+-    const BASE = dark ? [99, 125, 255] : [66, 90, 239]
+-    const LIGHT = dark ? [185, 198, 255] : [143, 163, 255]
+-
+-    const N = 700
+-    const CAM = 11, FOV = 460
+-
+-    // ---- 形状目标 ----
+-    // 1) TESSERA 文字：离屏画布采样像素
+-    const textPts = (() => {
+-      const oc = document.createElement('canvas')
+-      oc.width = 720; oc.height = 160
+-      const o = oc.getContext('2d')
+-      o.font = '900 104px -apple-system, "Segoe UI", Arial, sans-serif'
+-      o.textAlign = 'center'
+-      o.textBaseline = 'middle'
+-      o.fillText('TESSERA', 360, 86)
+-      const d = o.getImageData(0, 0, 720, 160).data
+-      const pts = []
+-      for (let y = 0; y < 160; y += 3)
+-        for (let x = 0; x < 720; x += 3)
+-          if (d[(y * 720 + x) * 4 + 3] > 128)
+-            pts.push([(x - 360) / 58, (y - 80) / 58, (Math.random() - 0.5) * 0.5])
+-      return pts
+-    })()
+-
+-    // 2) 斐波那契球壳
+-    const spherePts = (() => {
+-      const pts = [], GA = Math.PI * (3 - Math.sqrt(5))
+-      for (let i = 0; i < N; i++) {
+-        const y = 1 - (i / (N - 1)) * 2
+-        const r = Math.sqrt(1 - y * y), th = GA * i
+-        pts.push([Math.cos(th) * r * 2.6, y * 2.6, Math.sin(th) * r * 2.6])
+-      }
+-      return pts
+-    })()
+-
+-    // 3) 三叶环面结 (p=2, q=3)
+-    const knotPts = (() => {
+-      const pts = []
+-      for (let i = 0; i < N; i++) {
+-        const t = (i / N) * Math.PI * 2
+-        const r = 1.0 + 0.5 * Math.cos(3 * t)
+-        const x = r * Math.cos(2 * t) * 2.2
+-        const y = r * Math.sin(2 * t) * 2.2
+-        const z = 0.9 * Math.sin(3 * t) * 2.2
+-        const j = 0.16
+-        pts.push([x + (Math.random() - 0.5) * j, y + (Math.random() - 0.5) * j, z + (Math.random() - 0.5) * j])
+-      }
+-      return pts
+-    })()
+-
+-    const pick = (arr, i) => arr[(i * 7919) % arr.length]
+-
+-    // ---- 粒子 ----
+-    const P = []
+-    for (let i = 0; i < N; i++) {
+-      const sp = spherePts[i]
+-      P.push({
+-        x: sp[0] * 2, y: sp[1] * 2, z: sp[2] * 2,   // 从外围散开状态汇入
+-        vx: 0, vy: 0, vz: 0,
+-        ox: 0, oy: 0,                                // 鼠标排斥的屏幕偏移
+-        w: 0.5 + Math.random()                       // 个体噪声权重
+-      })
+-    }
+-
+-    // 相位时间轴：球(2.2s) 起手，此后 文字(4.2s) 与 环面结(3s) 交替
+-    const PHASES = [
+-      { shape: 'sphere', dur: 2.2 },
+-      { shape: 'text', dur: 4.2 },
+-      { shape: 'knot', dur: 3.0 },
+-      { shape: 'text', dur: 4.2 }
+-    ]
+-    let phaseIdx = 0, phaseT = 0
+-    const targetOf = (i, shape) => {
+-      if (shape === 'text') return pick(textPts, i)
+-      if (shape === 'knot') return knotPts[i]
+-      return spherePts[i]
+-    }
+-
+-    // 鼠标排斥（画布坐标系）
+-    let mx = -9999, my = -9999
+-    const toLocal = (cx, cy) => {
+-      const r = cv.getBoundingClientRect()
+-      mx = (cx - r.left) / r.width * W
+-      my = (cy - r.top) / r.height * H
+-    }
+-    window.addEventListener('mousemove', e => toLocal(e.clientX, e.clientY), { passive: true })
+-    window.addEventListener('touchmove', e => {
+-      if (e.touches[0]) toLocal(e.touches[0].clientX, e.touches[0].clientY)
+-    }, { passive: true })
+-
+-    let rotY = 0.9, t0 = performance.now(), last = t0, raf
+-
+-    const draw = now => {
+-      const dt = Math.min((now - last) / 1000, 0.05)
+-      last = now
+-      const t = (now - t0) / 1000
+-
+-      // 相位推进 + 相变爆发冲量
+-      phaseT += dt
+-      const phase = PHASES[phaseIdx % PHASES.length]
+-      if (phaseT >= phase.dur) {
+-        phaseT = 0
+-        phaseIdx++
+-        for (const p of P) {   // 切向旋涡冲量，让变形像一次小爆发
+-          const d = Math.hypot(p.x, p.z) + 0.001
+-          p.vx += (-p.z / d) * 2.4 * p.w
+-          p.vz += (p.x / d) * 2.4 * p.w
+-          p.vy += (Math.random() - 0.5) * 1.6
+-        }
+-      }
+-      const shape = PHASES[phaseIdx % PHASES.length].shape
+-
+-      // 文字阶段：旋转角回正便于阅读；其余阶段持续自转
+-      if (shape === 'text') {
+-        const home = Math.round(rotY / (Math.PI * 2)) * Math.PI * 2
+-        rotY += (home - rotY) * Math.min(dt * 4, 1)
+-      } else {
+-        rotY += dt * 0.55
+-      }
+-      const cy = Math.cos(rotY), sy = Math.sin(rotY)
+-      const tilt = shape === 'text' ? 0 : Math.sin(t * 0.6) * 0.3
+-      const ct = Math.cos(tilt), st = Math.sin(tilt)
+-
+-      ctx.clearRect(0, 0, W, H)
+-      for (let i = 0; i < N; i++) {
+-        const p = P[i]
+-        const tg = targetOf(i, shape)
+-        // 弹簧逼近目标 + 冲量速度衰减 + 个体微噪声
+-        const wob = Math.sin(t * 1.4 + i) * 0.015 * p.w
+-        p.vx *= 0.9; p.vy *= 0.9; p.vz *= 0.9
+-        p.x += (tg[0] - p.x) * 0.055 + p.vx * dt * 6 + wob
+-        p.y += (tg[1] - p.y) * 0.055 + p.vy * dt * 6
+-        p.z += (tg[2] - p.z) * 0.055 + p.vz * dt * 6 + wob
+-
+-        // 旋转（Y 轴 + 轻微 X 倾斜）
+-        const x1 = p.x * cy - p.z * sy
+-        const z1 = p.x * sy + p.z * cy
+-        const y2 = p.y * ct - z1 * st
+-        const z2 = p.y * st + z1 * ct
+-
+-        const s = FOV / (CAM - z2)
+-        let sx = W / 2 + x1 * s
+-        let syp = H / 2 + y2 * s
+-
+-        // 鼠标排斥：屏幕空间推力，带阻尼回弹
+-        const dx = sx - mx, dy = syp - my
+-        const dist = Math.hypot(dx, dy)
+-        let px = 0, py = 0
+-        if (dist < 70 && dist > 0.01) {
+-          const f = (70 - dist) / 70 * 26
+-          px = dx / dist * f
+-          py = dy / dist * f
+-        }
+-        p.ox += (px - p.ox) * 0.18
+-        p.oy += (py - p.oy) * 0.18
+-        sx += p.ox
+-        syp += p.oy
+-
+-        const depth = Math.max(0, Math.min(1, (z2 + 3) / 6))
+-        const r = (BASE[0] + (LIGHT[0] - BASE[0]) * depth) | 0
+-        const g = (BASE[1] + (LIGHT[1] - BASE[1]) * depth) | 0
+-        const b = (BASE[2] + (LIGHT[2] - BASE[2]) * depth) | 0
+-        ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + (0.45 + depth * 0.5) + ')'
+-        ctx.beginPath()
+-        ctx.arc(sx, syp, 1.1 + depth * 1.5, 0, 6.2832)
+-        ctx.fill()
+-      }
+-      raf = requestAnimationFrame(draw)
+-    }
+-
+-    if (reduceMotion) {
+-      // 静态：直接渲染文字形态
+-      for (let i = 0; i < N; i++) {
+-        const tg = pick(textPts, i)
+-        const s = FOV / (CAM - tg[2])
+-        const depth = Math.max(0, Math.min(1, (tg[2] + 3) / 6))
+-        const r = (BASE[0] + (LIGHT[0] - BASE[0]) * depth) | 0
+-        const g = (BASE[1] + (LIGHT[1] - BASE[1]) * depth) | 0
+-        const b = (BASE[2] + (LIGHT[2] - BASE[2]) * depth) | 0
+-        ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',0.9)'
+-        ctx.beginPath()
+-        ctx.arc(W / 2 + tg[0] * s, H / 2 + tg[1] * s, 1.8, 0, 6.2832)
+-        ctx.fill()
+-      }
+-    } else {
+-      raf = requestAnimationFrame(draw)
+-    }
+-
+-    // 进度条：渐进逼近 90%，load 后冲满并释放渲染资源
+-    const bar = document.getElementById('loading-bar-inner')
+-    let prog = 0
+-    const tick = setInterval(() => {
+-      prog += (90 - prog) * 0.06
+-      if (bar) bar.style.width = prog.toFixed(1) + '%'
+-    }, 120)
+-    const finish = () => {
+-      clearInterval(tick)
+-      if (bar) bar.style.width = '100%'
+-      setTimeout(() => cancelAnimationFrame(raf), 800)
+-    }
+-    if (document.readyState === 'complete') finish()
+-    else {
+-      window.addEventListener('load', finish)
+-      setTimeout(finish, 7000)
+-    }
+-  })()
++    .loading-ring(aria-hidden='true')
++      .ring-arc
++    .loading-word= config.title
+ 
+ script.
+   (()=>{
+diff --git a/source/css/_layout/loading.styl b/source/css/_layout/loading.styl
+index 2334c32..22ec7c1 100644
+--- a/source/css/_layout/loading.styl
++++ b/source/css/_layout/loading.styl
+@@ -18,26 +18,44 @@ if hexo-config('preloader.enable') && hexo-config('preloader.source') == 1
+       flex-direction: column
+       align-items: center
+ 
+-    #loading-canvas
+-      width: min(86vw, 460px)
+-      height: auto
+-
+-    .loading-bar
+-      overflow: hidden
+-      margin-top: 10px
+-      width: 180px
+-      height: 4px
+-      border-radius: 4px
+-      background: var(--primary-soft)
+-
+-      .loading-bar-inner
+-        width: 0
+-        height: 100%
+-        border-radius: 4px
+-        background: linear-gradient(90deg, $tessera-blue, $tessera-blue-light)
+-        transition: width .3s ease
++    // 彗尾圆环：淡色轨道 + 锥形渐变弧线匀速旋转
++    .loading-ring
++      position: relative
++      width: 54px
++      height: 54px
++
++      &::before
++        position: absolute
++        inset: 0
++        border: 3px solid var(--primary-soft)
++        border-radius: 50%
++        content: ''
++
++      .ring-arc
++        position: absolute
++        inset: 0
++        border-radius: 50%
++        background: conic-gradient(from 0deg, alpha($tessera-blue, 0) 8%, $tessera-blue 98%, alpha($tessera-blue, 0) 98%)
++        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3.5px), #000 calc(100% - 3px))
++        mask: radial-gradient(farthest-side, transparent calc(100% - 3.5px), #000 calc(100% - 3px))
++        animation: tessera-spin 1s linear infinite
++
++        @media (prefers-reduced-motion: reduce)
++          animation-duration: 3s
++
++    .loading-word
++      margin-top: 22px
++      color: var(--font-color)
++      font-size: 14px
++      letter-spacing: 5px
++      text-indent: 5px // 抵消末字符 letter-spacing，保证视觉居中
++      opacity: .68
+ 
+     &.loaded
+       visibility: hidden
+       opacity: 0
+       pointer-events: none
++
++  @keyframes tessera-spin
++    to
++      transform: rotate(360deg)
+diff --git a/source/css/_page/homepage.styl b/source/css/_page/homepage.styl
+index 531a652..f47f42c 100644
+--- a/source/css/_page/homepage.styl
++++ b/source/css/_page/homepage.styl
+@@ -172,32 +172,14 @@ $indexEnable = hexo-config('cover.index_enable')
+       & > .content
+         @extend .limit-more-line
+         -webkit-line-clamp: 2
+-        word-break: break-word
++        word-break: break-word
++
+ // Tessera 瀑布流（index_layout: 6）
+-// 安知鱼式图上文下卡片 + CSS columns 流式布局：卡片高度随内容自然参差
++// 排版交给主题内建的 MasonryInfiniteGrid（main.js）：横向顺序、高度参差的真瀑布流
++// 这里只负责卡片外观；注意不要在卡片上写 hover transform——JS 用 transform 定位，会冲突
+ if $indexLayout == 6
+   #recent-posts
+-    .recent-post-items
+-      column-count: 2
+-      column-gap: 16px
+-
+-      +maxWidth768()
+-        column-count: 1
+-
+-      +minWidth2000()
+-        column-count: 3
+-
+     .recent-post-item
+-      display: inline-block
+-      margin-bottom: 16px
+-      width: 100%
+-      vertical-align: top
+-      break-inside: avoid
+-      -webkit-column-break-inside: avoid
+-
+-      &:hover
+-        transform: translateY(-3px)
+-
+       .post_cover
+         height: 200px
+ 

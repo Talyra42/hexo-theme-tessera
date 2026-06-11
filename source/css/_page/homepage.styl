@@ -173,3 +173,25 @@ $indexEnable = hexo-config('cover.index_enable')
         @extend .limit-more-line
         -webkit-line-clamp: 2
         word-break: break-word
+
+// Tessera 瀑布流（index_layout: 6）
+// 排版交给主题内建的 MasonryInfiniteGrid（main.js）：横向顺序、高度参差的真瀑布流
+// 这里只负责卡片外观；注意不要在卡片上写 hover transform——JS 用 transform 定位，会冲突
+if $indexLayout == 6
+  #recent-posts
+    .recent-post-item
+      .post_cover
+        height: 200px
+
+      & > .recent-post-info
+        padding: 18px 22px 20px
+
+        & > .article-title
+          font-size: 1.26em
+          font-weight: 600
+          line-height: 1.45
+
+        & > .content
+          margin-top: 4px
+          -webkit-line-clamp: 3
+          font-size: .92em

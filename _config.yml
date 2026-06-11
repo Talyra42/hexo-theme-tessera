@@ -150,7 +150,7 @@ subtitle:
 # 5: Info displayed on the cover
 # 6: Masonry layout - Cover on top, info on the bottom
 # 7: Masonry layout - Info displayed on the cover
-index_layout: 3
+index_layout: 6
 
 # Display the article introduction on homepage
 # 1: description
@@ -820,6 +820,12 @@ activate_power_mode:
 
 # Background effects
 # --------------------------------------
+
+# Tessera right-click menu (Anzhiyu-style)
+# 自定义右键菜单：导航/复制/随机文章/昼夜切换；选中文字、链接、图片有情境动作
+# 按住 Ctrl 右键可呼出系统原生菜单
+rightmenu:
+  enable: true
 
 # Tessera 3D background (theme signature)
 # 漂浮玻璃碎片场，基于 three.js；深浅色模式自适应，移动端默认关闭

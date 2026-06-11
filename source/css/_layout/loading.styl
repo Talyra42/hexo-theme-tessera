@@ -18,38 +18,44 @@ if hexo-config('preloader.enable') && hexo-config('preloader.source') == 1
       flex-direction: column
       align-items: center
 
-    #loading-cube
-      width: 240px
-      height: 240px
-      cursor: grab
+    // 彗尾圆环：淡色轨道 + 锥形渐变弧线匀速旋转
+    .loading-ring
+      position: relative
+      width: 54px
+      height: 54px
 
-      +maxWidth768()
-        width: 190px
-        height: 190px
+      &::before
+        position: absolute
+        inset: 0
+        border: 3px solid var(--primary-soft)
+        border-radius: 50%
+        content: ''
+
+      .ring-arc
+        position: absolute
+        inset: 0
+        border-radius: 50%
+        background: conic-gradient(from 0deg, alpha($tessera-blue, 0) 8%, $tessera-blue 98%, alpha($tessera-blue, 0) 98%)
+        -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3.5px), #000 calc(100% - 3px))
+        mask: radial-gradient(farthest-side, transparent calc(100% - 3.5px), #000 calc(100% - 3px))
+        animation: tessera-spin 1s linear infinite
+
+        @media (prefers-reduced-motion: reduce)
+          animation-duration: 3s
 
     .loading-word
-      margin-top: 4px
+      margin-top: 22px
       color: var(--font-color)
       font-size: 14px
-      letter-spacing: 4px
-      opacity: .75
-
-    .loading-bar
-      overflow: hidden
-      margin-top: 18px
-      width: 180px
-      height: 4px
-      border-radius: 4px
-      background: var(--primary-soft)
-
-      .loading-bar-inner
-        width: 0
-        height: 100%
-        border-radius: 4px
-        background: linear-gradient(90deg, $tessera-blue, $tessera-blue-light)
-        transition: width .3s ease
+      letter-spacing: 5px
+      text-indent: 5px // 抵消末字符 letter-spacing，保证视觉居中
+      opacity: .68
 
     &.loaded
       visibility: hidden
       opacity: 0
       pointer-events: none
+
+  @keyframes tessera-spin
+    to
+      transform: rotate(360deg)
