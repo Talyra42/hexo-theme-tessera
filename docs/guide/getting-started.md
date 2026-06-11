@@ -90,6 +90,6 @@ npm install hexo-wordcount hexo-generator-searchdb --save
 
 ## 下一步
 
-- [导航与菜单](/guide/navigation) —— 配置 Dock 导航、菜单与社交图标
+- [导航与菜单](/guide/navigation) —— 配置顶栏导航、菜单与社交图标
 - [首页](/guide/homepage) —— 首页布局、开屏模块、封面
 - [配置字段参考](/config/reference) —— 全部配置项速查

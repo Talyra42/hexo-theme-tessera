@@ -12,7 +12,7 @@
 
 ## 这是什么
 
-`hexo-theme-tessera` 是一个 **Hexo 主题**（Pug 模板 + Stylus 样式 + 插件脚本），由 Butterfly 主题重构而来，重新以 **AGPL-3.0** 授权，作者 **Talyra42**，仓库归属组织 **LumiDesk**。设计语言是**玻璃拟态（glassmorphism）**：极光渐变背景上的磨砂半透明卡片，配一条悬浮圆角的「Dock」导航栏，以及基于 three.js 的漂浮玻璃碎片 3D 背景（主题视觉签名）。
+`hexo-theme-tessera` 是一个 **Hexo 主题**（Pug 模板 + Stylus 样式 + 插件脚本），由 Butterfly 主题重构而来，重新以 **AGPL-3.0** 授权，作者 **Talyra42**，仓库归属组织 **LumiDesk**。设计风格**简洁克制**：纯净的浅 / 深底色（`#f7f9fe` / `#18171d`）上排布近乎实色的**描边卡片**（`$glass-bg = rgba(255,255,255,.88)` + 实色细边 + 12px 圆角 + 轻微 10px 磨砂），全站只用**一个蓝**（`#425AEF`）作为强调；顶部是一条全宽贴顶的磨砂玻璃导航栏（`#nav`，菜单项为胶囊药丸）；标志性的视觉签名是基于 three.js 的**漂浮玻璃碎片 3D 背景**（`bg3d.js`），隐约透过卡片但不喧宾夺主。注意：**不是「全站玻璃拟态」，也不是「悬浮 Dock」**——磨砂质感仅用于顶栏与卡片的轻微叠层，真实设计语言见 `source/css/var.styl` 顶部的作者注释。
 
 本仓库**没有 build / lint / test 流程**——`package.json` 的 `test` 只是占位。主题由 Hexo 站点*消费*：Pug → HTML、Stylus → CSS 都在站点执行 `hexo generate` 时，由 `hexo-renderer-pug` 与 `hexo-renderer-stylus` 编译。
 
@@ -54,7 +54,7 @@
 ## 架构
 
 **模板（Pug，`layout/`）** —— 顶层视图（`index/post/page/archive/tag/category.pug`）都 `extends includes/layout.pug` 并填充 `block content`。`layout/includes/` 下：
-- `head/`、`header/`（Dock 导航 + 标题滚动切换）、`footer.pug`、`sidebar.pug`、`rightside.pug`、`pagination.pug`；
+- `head/`、`header/`（全宽磨砂顶栏导航 + 标题滚动切换）、`footer.pug`、`sidebar.pug`、`rightside.pug`、`pagination.pug`；
 - `home-top.pug` —— 首页开屏模块（标语卡 + 滚动图标墙 + 分类入口 + 推荐位）；
 - `mixins/`（`indexPostUI.pug` 七种首页布局、`article-sort.pug`）；
 - `widget/`（侧栏卡片：作者、公告、最近文章、分类、标签、归档、系列、网站信息、TOC、广告等）；
@@ -63,14 +63,14 @@
 - `loading/`（`fullpage-loading.pug` CSS 环形加载动画 / `pace.pug` 进度条，由 `preloader.source` 选择）。
 
 **样式（Stylus，`source/css/`）** —— 设计令牌（design token）管线是理解全站外观的关键：
-- `var.styl` —— Stylus 变量（颜色、玻璃令牌、极光渐变、调色板）。
+- `var.styl` —— Stylus 变量（单主色蓝、卡片/玻璃令牌、纯净底色、调色板；顶部有作者对设计语言的注释）。
 - `_global/index.styl` —— 把上述变量映射成 `:root` 下的 CSS 自定义属性（如 `--glass-bg`、`--card-bg`、`--global-bg`、`--card-radius`）。
 - `_mode/darkmode.styl` —— 在 `[data-theme='dark']` 下覆盖同一批自定义属性。
 - `_global/function.styl` —— **`.cardHover`** 是核心玻璃卡片样式（被文章卡、侧栏卡、分页、标签药丸等 `@extend`）。改这里的玻璃观感会全站传播。也存放共享 mixin / 动画。
 - `_layout/`（head/aside/footer/post/pagination…）、`_page/`（homepage/hometop/tags/categories…）、`_tags/`、`_search/`、`_highlight/`（highlight.js 与 prismjs 主题）、`_third-party/`。入口 `index.styl` 用 glob 导入各目录。
 
 **客户端 JS（`source/js/`）**
-- `main.js` —— 导航 / Dock、深色模式、懒加载初始化、右下角工具、滚动、标题滚动切换等。
+- `main.js` —— 顶栏导航、深色模式、懒加载初始化、右下角工具、滚动、标题滚动切换等。
 - `utils.js` —— `btf` 工具函数集合。
 - `bg3d.js` —— three.js 漂浮玻璃碎片 3D 背景（深浅色自适应、鼠标视差、滚动漂移、移动端默认关闭、尊重 `prefers-reduced-motion`）。
 - `rightmenu.js` —— 自定义右键菜单（导航 / 情境复制 / 随机文章 / 昼夜切换；Ctrl+右键回退系统菜单）。

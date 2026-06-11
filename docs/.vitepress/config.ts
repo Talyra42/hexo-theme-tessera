@@ -10,6 +10,11 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
 
+  // 浏览器标签页图标
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/tessera-logo.svg' }]
+  ],
+
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

@@ -1,7 +1,7 @@
 {
   "name": "hexo-theme-tessera",
   "version": "1.1.0",
-  "description": "A glassmorphism Hexo theme — frosted translucent cards over an aurora gradient background, with a floating rounded dock navbar.",
+  "description": "A clean, card-based Hexo theme — solid bordered cards with a subtle frosted touch over a Three.js floating glass-shard background, with a single blue accent.",
   "main": "package.json",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,9 +11,9 @@
     "theme",
     "hexo-theme",
     "tessera",
-    "glassmorphism",
-    "aurora",
-    "dock",
+    "threejs",
+    "card",
+    "minimal",
     "dark-mode",
     "responsive",
     "Talyra42",
