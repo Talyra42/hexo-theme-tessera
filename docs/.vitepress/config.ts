@@ -9,6 +9,9 @@ export default defineConfig({
   base: '/',
   lastUpdated: true,
   cleanUrls: true,
+  sitemap: {
+    hostname: 'https://hexo-theme-tessera.vercel.app'
+  },
 
   // 浏览器标签页图标
   head: [

@@ -12,6 +12,8 @@
 ![license](https://img.shields.io/github/license/LumiDesk/hexo-theme-tessera?color=FF5531)
 ![GitHub stars](https://img.shields.io/github/stars/LumiDesk/hexo-theme-tessera?style=social)
 
+**[📖 在线文档](https://hexo-theme-tessera.vercel.app)**
+
 </div>
 
 ---
@@ -74,11 +76,13 @@ npm install hexo-renderer-pug hexo-renderer-stylus --save
 
 > 💡 个性化配置请写在站点根目录的 `_config.tessera.yml` 中，避免直接改动主题目录，方便后续更新。
 
-部分功能需要按需安装可选插件（如 `hexo-wordcount` 字数统计、`hexo-generator-searchdb` 本地搜索）。**完整的配置说明、可选插件、页面用法与标签插件语法，请查阅 👉 [使用文档](./docs/)。**
+部分功能需要按需安装可选插件（如 `hexo-wordcount` 字数统计、`hexo-generator-searchdb` 本地搜索）。**完整的配置说明、可选插件、页面用法与标签插件语法，请查阅 👉 [使用文档](https://hexo-theme-tessera.vercel.app)。**
 
 ## 📖 文档
 
-主题的完整使用文档（配置字段详解、页面进阶用法、标签插件、常见问题等）以 [VitePress](https://vitepress.dev/) 编写，位于仓库的 [`docs/`](./docs/) 目录。本地预览：
+📖 **在线文档：<https://hexo-theme-tessera.vercel.app>**
+
+完整使用文档（配置字段详解、页面进阶用法、标签插件、常见问题等）以 [VitePress](https://vitepress.dev/) 编写，源码位于仓库的 [`docs/`](./docs/) 目录。本地预览：
 
 ```bash
 cd docs

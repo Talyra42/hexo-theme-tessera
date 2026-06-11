@@ -35,6 +35,7 @@
 
 ## 文档站（`docs/`）
 
+- **线上地址：<https://hexo-theme-tessera.vercel.app>**（Vercel 部署，Root Directory 设为 `docs`，根 `package.json` 的 `packageManager` + 环境变量 `ENABLE_EXPERIMENTAL_COREPACK=1` 让其用 pnpm 11.5；推送 `main` 自动部署）。
 - 用 **VitePress** 编写，是一个**独立的 pnpm 子项目**（有自己的 `docs/package.json` 与 `docs/.vitepress/`），不与主题的 `package.json` 混在一起。
 - 本地预览：`cd docs && pnpm install && pnpm docs:dev`；构建：`pnpm docs:build`。
 - `docs/node_modules`、`docs/.vitepress/dist`、`docs/.vitepress/cache` 都不应提交（见 `.gitignore`）。
