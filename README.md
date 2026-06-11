@@ -105,6 +105,8 @@ npm install hexo-wordcount hexo-generator-searchdb --save
 - [x] **广告支持** - Google AdSense/自定义广告位
 
 ### 🎪 视觉效果
+- [x] **Tessera 3D 背景** - three.js 漂浮玻璃碎片场，鼠标视差，深浅色自适应（主题视觉签名）
+- [x] **3D 交互加载动画** - 零依赖软件渲染的 Tessera 魔方，鼠标可交互
 - [x] **打字特效** - activate_power_mode 动画
 - [x] **背景特效** - 静态彩带/动态彩带/飘带效果/Canvas Nest
 - [x] **鼠标特效** - 烟花/爱心/文字点击效果

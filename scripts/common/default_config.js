@@ -481,6 +481,12 @@ module.exports = {
     enable: false,
     mobile: false
   },
+  bg_3d: {
+    enable: true,
+    mobile: false,
+    zIndex: -1,
+    opacity: 1
+  },
   canvas_nest: {
     enable: false,
     color: '0,0,255',

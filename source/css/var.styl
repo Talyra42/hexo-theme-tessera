@@ -1,6 +1,9 @@
 // color
-$bright-blue = #49B1F5
-$strong-cyan = #00c4b6
+// Tessera 2.0 -- 主色体系（单主色策略：全站只认一个蓝）
+$tessera-blue = #425AEF
+$tessera-blue-light = #637dff
+$bright-blue = $tessera-blue
+$strong-cyan = $tessera-blue
 $light-orange = #FF7242
 $light-red = #F47466
 $themeColorEnable = hexo-config('theme_color') && hexo-config('theme_color.enable')
@@ -52,25 +55,26 @@ $line-height-code-block = 1.6
 $blockquote-color = #6a737d
 $blockquote-padding-color = $themeColorEnable && hexo-config('theme_color.blockquote_padding_color') ? convert(hexo-config('theme_color.blockquote_padding_color')) : #49B1F5
 $blockquote-background-color = $themeColorEnable && hexo-config('theme_color.blockquote_background_color') ? alpha(convert(hexo-config('theme_color.blockquote_background_color')), .1) : alpha($blockquote-padding-color, .1)
-// glassmorphism —— 玻璃拟态设计令牌
-// 浅色玻璃
-$glass-bg = rgba(255, 255, 255, .55)
-$glass-border = rgba(255, 255, 255, .5)
-$glass-blur = 14px
-$glass-shadow = 0 8px 32px rgba(31, 38, 135, .12)
-$glass-shadow-hover = 0 14px 44px rgba(31, 38, 135, .22)
-$card-radius = 16px
-// 深色玻璃
-$glass-bg-dark = rgba(28, 28, 34, .5)
-$glass-border-dark = rgba(255, 255, 255, .08)
-$glass-shadow-dark = 0 8px 32px rgba(0, 0, 0, .45)
-$glass-shadow-dark-hover = 0 14px 44px rgba(0, 0, 0, .55)
-// 极光背景（毛玻璃需要彩色背景垫底才能显现）
-$aurora-bg-light = unquote('radial-gradient(circle at 15% 18%, rgba(173, 216, 255, .55), transparent 42%), radial-gradient(circle at 85% 12%, rgba(255, 193, 234, .5), transparent 44%), radial-gradient(circle at 50% 92%, rgba(180, 255, 222, .5), transparent 46%), linear-gradient(135deg, #eef2f7, #f6eef8)')
-$aurora-bg-dark = unquote('radial-gradient(circle at 15% 18%, rgba(88, 101, 242, .25), transparent 42%), radial-gradient(circle at 85% 12%, rgba(160, 80, 200, .22), transparent 44%), radial-gradient(circle at 50% 92%, rgba(40, 160, 150, .2), transparent 46%), linear-gradient(135deg, #0e1117, #14101c)')
-
+// Tessera 2.0 -- 卡片设计令牌
+// 纯净底 + 实色描边卡片（安知鱼式），叠一层轻微磨砂质感（backdrop blur）
+// 让 Three.js 背景隐约透过卡片，但不喧宾夺主
+// 浅色卡片
+$glass-bg = rgba(255, 255, 255, .88)
+$glass-border = #e3e8f7
+$glass-blur = 10px
+$glass-shadow = 0 8px 16px -4px rgba(44, 45, 48, .047)
+$glass-shadow-hover = 0 12px 26px -6px rgba(66, 90, 239, .15)
+$card-radius = 12px
+// 深色卡片
+$glass-bg-dark = rgba(27, 28, 32, .86)
+$glass-border-dark = #3d3d3f
+$glass-shadow-dark = 0 8px 16px -4px rgba(0, 0, 0, .25)
+$glass-shadow-dark-hover = 0 12px 26px -6px rgba(72, 95, 235, .35)
+// 页面底色：纯净、克制（Three.js 背景画布叠加在这层之上）
+$body-bg-light = #f7f9fe
+$body-bg-dark = #18171d
 // page
-$body-bg = #fff
+$body-bg = $body-bg-light
 $a-link-color = #99a9bf
 $sticky-color = $light-orange
 $theme-meta-color = $themeColorEnable && hexo-config('theme_color.meta_color') ? convert(hexo-config('theme_color.meta_color')) : #858585

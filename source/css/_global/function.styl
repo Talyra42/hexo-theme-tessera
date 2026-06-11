@@ -26,13 +26,15 @@ addBorderRadius(x = 6, hide = false)
 .cardHover
   background: var(--card-bg)
   box-shadow: var(--card-box-shadow)
-  backdrop-filter: saturate(160%) blur(var(--glass-blur))
-  -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur))
+  backdrop-filter: saturate(180%) blur(var(--glass-blur))
+  -webkit-backdrop-filter: saturate(180%) blur(var(--glass-blur))
   border: 1px solid var(--glass-border)
   border-radius: var(--card-radius)
-  transition: all .3s
+  transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease
 
+  // hover：描边亮起主题蓝（视觉签名），阴影带主色光晕
   &:hover
+    border-color: var(--tessera-primary)
     box-shadow: var(--card-hover-box-shadow)
 
 .imgHover

@@ -821,6 +821,15 @@ activate_power_mode:
 # Background effects
 # --------------------------------------
 
+# Tessera 3D background (theme signature)
+# 漂浮玻璃碎片场，基于 three.js；深浅色模式自适应，移动端默认关闭
+bg_3d:
+  enable: true
+  mobile: false
+  zIndex: -1
+  # The opacity of the whole canvas (0 ~ 1)
+  opacity: 1
+
 # canvas_ribbon
 # See: https://github.com/hustcc/ribbon.js
 canvas_ribbon:

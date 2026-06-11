@@ -1,6 +1,146 @@
 #loading-box
-  .loading-spinner
-  .loading-word= _p('loading')
+  .loading-stage
+    canvas#loading-cube(width='320' height='320' aria-hidden='true')
+    .loading-word= _p('loading')
+    .loading-bar
+      .loading-bar-inner#loading-bar-inner
+
+//- Tessera 3D 加载动画：零依赖软件投影渲染器（无需等待 three.js，即开即用）
+//- 26 个小立方体组成 Tessera 魔方，呼吸聚散 + 鼠标/触摸跟随倾斜
+script.
+  (() => {
+    const cv = document.getElementById('loading-cube')
+    if (!cv) return
+    const ctx = cv.getContext('2d')
+    const DPR = Math.min(window.devicePixelRatio || 1, 2)
+    const SIZE = 320
+    cv.width = SIZE * DPR
+    cv.height = SIZE * DPR
+    ctx.scale(DPR, DPR)
+
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    // 主题色 #425AEF
+    const BASE = [66, 90, 239]
+    const LIGHT = [137, 156, 255]
+
+    // 3x3x3 去掉中心 => 26 个小立方体
+    const cells = []
+    for (let x = -1; x <= 1; x++)
+      for (let y = -1; y <= 1; y++)
+        for (let z = -1; z <= 1; z++)
+          if (x || y || z) cells.push([x, y, z])
+
+    // 单位立方体的顶点与面（面顶点按外法线逆时针）
+    const V = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]]
+    const F = [[0,1,2,3],[5,4,7,6],[4,0,3,7],[1,5,6,2],[4,5,1,0],[3,2,6,7]]
+    const N = [[0,0,-1],[0,0,1],[-1,0,0],[1,0,0],[0,-1,0],[0,1,0]]
+
+    let rx = -0.45, ry = 0.65          // 当前旋转
+    let trx = rx, tryy = ry            // 目标旋转（鼠标交互）
+    const onMove = (cx, cy) => {
+      const nx = cx / window.innerWidth - 0.5
+      const ny = cy / window.innerHeight - 0.5
+      tryy = 0.65 + nx * 1.2
+      trx = -0.45 - ny * 0.9
+    }
+    window.addEventListener('mousemove', e => onMove(e.clientX, e.clientY), { passive: true })
+    window.addEventListener('touchmove', e => {
+      if (e.touches[0]) onMove(e.touches[0].clientX, e.touches[0].clientY)
+    }, { passive: true })
+
+    const rot = (p, ax, ay) => {
+      let [x, y, z] = p
+      let cy0 = Math.cos(ay), sy0 = Math.sin(ay)
+      let x1 = x * cy0 - z * sy0, z1 = x * sy0 + z * cy0
+      let cx0 = Math.cos(ax), sx0 = Math.sin(ax)
+      let y2 = y * cx0 - z1 * sx0, z2 = y * sx0 + z1 * cx0
+      return [x1, y2, z2]
+    }
+
+    let t0 = performance.now()
+    let raf
+
+    const draw = now => {
+      const t = (now - t0) / 1000
+      // 阻尼跟随鼠标
+      rx += (trx - rx) * 0.06
+      ry += (tryy - ry) * 0.06
+      const ay = ry + (reduceMotion ? 0 : t * 0.4)
+      const ax = rx + (reduceMotion ? 0 : Math.sin(t * 0.5) * 0.1)
+
+      // 呼吸聚散：小方块离中心的间距周期变化
+      const gap = reduceMotion ? 1.15 : 1.15 + Math.sin(t * 1.8) * 0.22
+      const half = 0.42                     // 小立方体半边长
+      const cam = 10                        // 相机距离
+      const fov = 300                       // 焦距
+
+      ctx.clearRect(0, 0, SIZE, SIZE)
+      const quads = []
+      for (const c of cells) {
+        const cx3 = c[0] * gap, cy3 = c[1] * gap, cz3 = c[2] * gap
+        // 角块微延迟，产生波浪感
+        const wob = reduceMotion ? 0 : Math.sin(t * 1.8 - (Math.abs(c[0]) + Math.abs(c[1]) + Math.abs(c[2]))) * 0.04
+        for (let f = 0; f < 6; f++) {
+          const n = rot(N[f], ax, ay)
+          if (n[2] < 0.02) continue          // 背面剔除：相机位于 +z，仅保留法线朝向相机的面
+          const pts = []
+          let zsum = 0
+          for (const vi of F[f]) {
+            const p = rot([
+              cx3 + V[vi][0] * (half + wob),
+              cy3 + V[vi][1] * (half + wob),
+              cz3 + V[vi][2] * (half + wob)
+            ], ax, ay)
+            const s = fov / (cam - p[2])
+            pts.push([SIZE / 2 + p[0] * s, SIZE / 2 + p[1] * s])
+            zsum += p[2]
+          }
+          // 平面光照：法线与光源方向点积
+          const lum = Math.max(0, n[0] * 0.45 - n[1] * 0.6 - n[2] * 0.66)
+          quads.push({ z: zsum / 4, pts, lum })
+        }
+      }
+      quads.sort((a, b) => a.z - b.z)        // 画家算法：远的先画
+      for (const q of quads) {
+        const k = q.lum
+        const r = BASE[0] + (LIGHT[0] - BASE[0]) * k
+        const g = BASE[1] + (LIGHT[1] - BASE[1]) * k
+        const b = BASE[2] + (LIGHT[2] - BASE[2]) * k
+        ctx.beginPath()
+        ctx.moveTo(q.pts[0][0], q.pts[0][1])
+        for (let i = 1; i < 4; i++) ctx.lineTo(q.pts[i][0], q.pts[i][1])
+        ctx.closePath()
+        ctx.fillStyle = 'rgba(' + (r | 0) + ',' + (g | 0) + ',' + (b | 0) + ',' + (dark ? 0.92 : 0.95) + ')'
+        ctx.fill()
+        ctx.strokeStyle = dark ? 'rgba(24,23,29,.55)' : 'rgba(247,249,254,.7)'
+        ctx.lineWidth = 1
+        ctx.stroke()
+      }
+      raf = requestAnimationFrame(draw)
+    }
+    raf = requestAnimationFrame(draw)
+
+    // 模拟进度条：渐进逼近 90%，load 后冲满
+    const bar = document.getElementById('loading-bar-inner')
+    let prog = 0
+    const tick = setInterval(() => {
+      prog += (90 - prog) * 0.06
+      if (bar) bar.style.width = prog.toFixed(1) + '%'
+    }, 120)
+    const finish = () => {
+      clearInterval(tick)
+      if (bar) bar.style.width = '100%'
+      // 遮罩淡出后停掉渲染，释放资源
+      setTimeout(() => cancelAnimationFrame(raf), 800)
+    }
+    if (document.readyState === 'complete') finish()
+    else {
+      window.addEventListener('load', finish)
+      setTimeout(finish, 7000)
+    }
+  })()
 
 script.
   (()=>{
@@ -23,10 +163,7 @@ script.
     if (document.readyState === 'complete') {
       preloader.endLoading()
     } else {
-      // 等整页资源（含背景、图片）加载完成再撤下遮罩，
-      // 避免在 DOMContentLoaded 时过早隐藏、导致背景在无遮罩状态下突现
       window.addEventListener('load', preloader.endLoading)
-      // Add timeout protection: force end after 7 seconds
       setTimeout(preloader.endLoading, 7000)
     }
 

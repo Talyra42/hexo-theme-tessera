@@ -76,11 +76,20 @@ beautify()
   if hexo-config('text_align_justify')
     text-align: justify
 
+  // 正文链接：安知鱼式胶囊高亮 -- 平时蓝色细下划线，hover 整体变主题色胶囊
   a
+    padding: 0 2px
+    border-radius: 4px
     color: $theme-link-color
+    text-decoration: underline
+    text-decoration-color: alpha($theme-link-color, .35)
+    text-underline-offset: 3px
+    transition: background .2s ease, color .2s ease
 
     &:hover
-      text-decoration: underline
+      background: var(--tessera-primary)
+      color: #fff
+      text-decoration: none
 
   img
     display: block
