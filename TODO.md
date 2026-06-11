@@ -17,7 +17,7 @@
 
 - [x] **`_config.yml` 注释中文化。** 已把主题 `_config.yml` 的英文注释逐节翻译为中文（仅改注释，键/值/结构与 CRLF 行尾保持不变），并校正了 `index_layout` 中过时的布局 6/7 描述。`languages/` 按维护者决定保留（界面文案多语言翻译，被 115 处模板依赖，不可删）。
 
-- [ ] **`languages/` 新功能 key 完整性。** 七套语言文件（default/en/ja/ko/zh-CN/zh-HK/zh-TW）。重构新增的功能（首页开屏、右键菜单、说说页等）若引入新文案 key，需确认各语言文件是否补齐，避免缺 key 回退到默认。
+- [x] **`languages/` 新功能 key 完整性。** 已核查：模板 / JS 共引用 84 个 i18n key，七套语言文件（default/en/ja/ko/zh-CN/zh-HK/zh-TW）**全部齐全、零缺失**，且结构完全一致（各 88 key）。重构新增功能（首页开屏、右键菜单、说说页等）均用硬编码中文 / 配置驱动，未引入新 key。另有 4 个已定义但未被引用的 key（`pagination.prev` / `pagination.next` / `share` / `loading`）属无害冗余、为标准 Butterfly key，保留不动（2026-06-11）。
 
 ## 文档建设（进行中）
 
