@@ -12,12 +12,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "^11.5.0",
-      "onFail": "download"
-    }
+  "packageManager": "pnpm@11.5.0",
+  "engines": {
+    "node": ">=20"
   },
   "type": "module",
   "devDependencies": {
