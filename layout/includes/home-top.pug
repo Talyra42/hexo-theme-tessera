@@ -16,22 +16,30 @@
         if ht.siteText
           .htop-site= ht.siteText
       if icons.length
+        //- 双组结构：两组相同图标各自位移 -100%，循环点两组内容重合，结构上保证无缝
         .htop-iconwall(aria-hidden='true')
           .htop-iconrow
             .htop-icontrack
-              each it in row1.concat(row1)
-                .htop-tile(style=`background:${it.color}`)
-                  i(class=it.icon)
+              each n in [0, 1, 2]
+                .htop-iconset
+                  each it in row1
+                    .htop-tile(style=`background:${it.color}`)
+                      i(class=it.icon)
           if row2.length
             .htop-iconrow.htop-reverse
               .htop-icontrack
-                each it in row2.concat(row2)
-                  .htop-tile(style=`background:${it.color}`)
-                    i(class=it.icon)
+                each n in [0, 1, 2]
+                  .htop-iconset
+                    each it in row2
+                      .htop-tile(style=`background:${it.color}`)
+                        i(class=it.icon)
     if cats.length
       .htop-categories
         each c in cats
-          a.htop-cat(href=url_for(c.path) style=`background:${c.color}`)
+          //- 从 color 配置中提取第一个颜色值作为强调色（描边、图标线框都用它）
+          - const m = (c.color || '').match(/#[0-9a-fA-F]{3,8}|rgba?\([^)]+\)/)
+          - const accent = m ? m[0] : 'var(--tessera-primary)'
+          a.htop-cat(href=url_for(c.path) style=`--cat-accent:${accent}`)
             span.htop-cat-name= c.name
             if c.icon
               i.htop-cat-icon(class=c.icon)

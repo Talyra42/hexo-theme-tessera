@@ -675,6 +675,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const saveStatus = $htmlDom.contains('hide-aside') ? 'show' : 'hide'
       btf.saveToLocal.set('aside-status', saveStatus, 2)
       $htmlDom.toggle('hide-aside')
+      // 宽度过渡期间逐帧驱动瀑布流重排，让卡片位置与宽度同步变化而非过渡结束后跳位
+      if (btf.masonryItem) {
+        const start = performance.now()
+        const step = () => {
+          btf.masonryItem && btf.masonryItem.renderItems()
+          if (performance.now() - start < 450) requestAnimationFrame(step)
+        }
+        requestAnimationFrame(step)
+      }
     },
     'mobile-toc-button': (p, item) => { // Show mobile toc
       const tocEle = document.getElementById('card-toc')
@@ -900,7 +909,8 @@ document.addEventListener('DOMContentLoaded', () => {
         itemsWrap && itemsWrap.classList.add('grid-ready')
       })
       masonryItem.renderItems()
-      btf.addGlobalFn('pjaxCompleteOnce', () => { masonryItem.destroy() }, 'removeJustifiedIndexPostUI')
+      btf.masonryItem = masonryItem // 暴露实例：侧栏开关等布局过渡期间需要逐帧驱动重排
+      btf.addGlobalFn('pjaxCompleteOnce', () => { masonryItem.destroy(); btf.masonryItem = null }, 'removeJustifiedIndexPostUI')
     }
 
     typeof InfiniteGrid === 'function' ? init() : btf.getScript(`${GLOBAL_CONFIG.infinitegrid.js}`).then(init)

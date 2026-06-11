@@ -854,6 +854,14 @@ home_top:
       color: "#24292e"
     - icon: fab fa-npm
       color: "#cb3837"
+    - icon: fab fa-java
+      color: "#e76f00"
+    - icon: fab fa-rust
+      color: "#ce422b"
+    - icon: fab fa-golang
+      color: "#00add8"
+    - icon: fab fa-php
+      color: "#777bb4"
   # 分类入口：建议 2-3 个；color 支持渐变
   category:
     - name: 技术

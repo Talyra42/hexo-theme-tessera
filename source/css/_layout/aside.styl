@@ -1,5 +1,7 @@
 #aside-content
   width: 26%
+  min-width: 0
+  transition: width .3s ease, opacity .3s ease, padding .3s ease, visibility .3s
 
   +minWidth900()
     if hexo-config('aside.position') == 'right'
@@ -412,8 +414,13 @@
 +minWidth900()
   html.hide-aside
     .layout
-      > .aside-content
-        display: none
+      > #aside-content
+        overflow: hidden
+        padding-right: 0
+        padding-left: 0
+        width: 0
+        opacity: 0
+        visibility: hidden
 
       > div:first-child
         width: 100%
