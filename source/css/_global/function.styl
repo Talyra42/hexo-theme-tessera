@@ -155,10 +155,6 @@ if hexo-config('enter_transitions')
   #footer
     animation: bottom-top 1s
 
-  #site-title,
-  #site-subtitle
-    animation: titleScale 1s
-
   canvas:not(#ribbon-canvas),
   #web_bg.bg-animation
     animation: to_show 4s
@@ -171,9 +167,6 @@ if hexo-config('enter_transitions')
       for i in 1 2 3 4
         > :nth-child({i})
           animation: sidebarItem (i / 5s)
-
-.scroll-down-effects
-  animation: scroll-down-effect 1.5s infinite
 
 if hexo-config('avatar.effect') == true
   .avatar-img
@@ -236,19 +229,6 @@ if hexo-config('avatar.effect') == true
     box-shadow: 0 6px 16px rgba(0, 0, 0, .2)
     transform: translateY(-2px) scale(1.03)
 
-@keyframes scroll-down-effect
-  0%
-    opacity: .4
-    transform: translate(0, 0)
-
-  50%
-    opacity: 1
-    transform: translate(0, -16px)
-
-  100%
-    opacity: .4
-    transform: translate(0, 0)
-
 @keyframes bottom-top
   0%
     transform: translateY(35px)
@@ -256,6 +236,7 @@ if hexo-config('avatar.effect') == true
   100%
     transform: translateY(0)
 
+// 搜索弹窗开启动画使用（local-search.js / algolia.js 的 'titleScale 0.5s'）
 @keyframes titleScale
   0%
     opacity: 0

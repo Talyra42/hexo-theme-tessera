@@ -39,18 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
-   * 首頁top_img底下的箭頭
-   */
-  const scrollDownInIndex = () => {
-    const handleScrollToDest = () => {
-      btf.scrollToDest(document.getElementById('content-inner').offsetTop, 300)
-    }
-
-    const $scrollDownEle = document.getElementById('scroll-down')
-    $scrollDownEle && btf.addEventListenerPjax($scrollDownEle, 'click', handleScrollToDest)
-  }
-
-  /**
    * 代碼
    * 只適用於Hexo默認的代碼渲染
    */
@@ -973,7 +961,6 @@ document.addEventListener('DOMContentLoaded', () => {
       toggleCardCategory()
     }
 
-    GLOBAL_CONFIG_SITE.pageType === 'home' && scrollDownInIndex()
     scrollFn()
 
     forPostFn()

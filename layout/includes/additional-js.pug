@@ -21,9 +21,6 @@ div
     if needLoadCountJs
       != partial("includes/third-party/card-post-count/index", {}, { cache: true })
 
-    if loadSubJs
-      include ./third-party/subtitle.pug
-
     include ./third-party/math/index.pug
     include ./third-party/abcjs/index.pug
 

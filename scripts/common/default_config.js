@@ -25,14 +25,6 @@ module.exports = {
     img: '/img/tessera-logo.svg',
     effect: false
   },
-  disable_top_img: true,
-  default_top_img: null,
-  index_img: false,
-  archive_img: null,
-  tag_img: null,
-  tag_per_img: null,
-  category_img: null,
-  category_per_img: null,
   footer_img: false,
   background: null,
   cover: {
@@ -46,7 +38,7 @@ module.exports = {
     post_page: '/img/404.jpg'
   },
   error_404: {
-    enable: false,
+    enable: true,
     subtitle: 'Page Not Found',
     background: '/img/error-page.png'
   },
@@ -66,15 +58,6 @@ module.exports = {
       tags: true,
       label: true
     }
-  },
-  index_site_info_top: null,
-  index_top_img_height: null,
-  subtitle: {
-    enable: false,
-    effect: true,
-    typed_option: null,
-    source: false,
-    sub: null
   },
   index_layout: 6,
   index_post_content: {
@@ -485,7 +468,7 @@ module.exports = {
     enable: true
   },
   home_top: {
-    enable: false
+    enable: true
   },
   bg_3d: {
     enable: true,

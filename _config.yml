@@ -1,8 +1,6 @@
 # --------------------------------------
-# Hexo Tessera Theme Configuration
-# If you have any questions, please refer to the documentation
-# Chinese: https://github.com/Talyra42/hexo-theme-tessera
-# English: https://github.com/Talyra42/hexo-theme-tessera
+# Hexo Tessera 主题配置
+# 如有疑问，请查阅文档：https://github.com/LumiDesk/hexo-theme-tessera
 # --------------------------------------
 
 # --------------------------------------
@@ -59,11 +57,7 @@ avatar:
   img: /img/tessera-logo.svg
   effect: false
 
-# Tessera 默认不使用顶部横幅(banner)，文章封面会以磨砂玻璃卡片的形式展示在文章顶部。
-# 如需恢复 Butterfly 式的全幅横幅，把 disable_top_img 设为 false 并配置 default_top_img / index_img 等。
-disable_top_img: true
-
-# The background image of footer
+# 页脚背景图（填图片路径，false 为不使用）
 footer_img: false
 
 # Website Background
@@ -90,7 +84,7 @@ error_img:
 
 # A simple 404 page
 error_404:
-  enable: false
+  enable: true
   subtitle: 'Page Not Found'
   background: /img/error-page.png
 
@@ -118,32 +112,6 @@ post_meta:
 # --------------------------------------
 # Index page settings
 # --------------------------------------
-
-# The top_img settings of home page
-# default: top img - full screen, site info - middle
-# The position of site info, eg: 300px/300em/300rem/10%
-index_site_info_top:
-# The height of top_img, eg: 300px/300em/300rem
-index_top_img_height:
-
-# The subtitle on homepage
-subtitle:
-  enable: false
-  # Typewriter Effect
-  effect: true
-  # Customize typed.js
-  # https://github.com/mattboldt/typed.js/#customization
-  typed_option:
-  # Source - Call the third-party service API (Chinese only)
-  # It will show the source first, then show the content of sub
-  # Choose: false/1/2/3
-  # false - disable the function
-  # 1 - hitokoto.cn
-  # 2 - https://api.aa1.cn/doc/yiyan.html
-  # 3 - jinrishici.com
-  source: false
-  # If you close the typewriter effect, the subtitle will only show the first line of sub
-  sub:
 
 # Article layout on the homepage
 # 1: Cover on the left, info on the right

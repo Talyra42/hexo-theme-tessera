@@ -1,7 +1,9 @@
 # 发布打包（git archive / Release zip）时排除开发用文件，只保留主题本体
 /tools           export-ignore
+/docs            export-ignore
 /.github         export-ignore
 /.vscode         export-ignore
 /.gitignore      export-ignore
 /.gitattributes  export-ignore
 /CLAUDE.md       export-ignore
+/TODO.md         export-ignore

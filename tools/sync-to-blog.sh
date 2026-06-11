@@ -43,9 +43,11 @@ EXCLUDES=(
   ".git"
   "node_modules"
   "tools"
+  "docs"
   ".github"
   ".vscode"
   "CLAUDE.md"
+  "TODO.md"
 )
 
 echo "源目录 : $REPO_ROOT"

@@ -2,3 +2,6 @@
 node_modules/
 .vscode/
 dist/
+
+# VitePress 文档站构建产物（node_modules/ 与 dist/ 已被上面递归匹配）
+docs/.vitepress/cache/

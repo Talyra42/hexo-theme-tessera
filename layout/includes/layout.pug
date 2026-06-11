@@ -55,7 +55,7 @@ html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside
             include widget/index.pug
 
       - const footerBg = theme.footer_img
-      - const footer_bg = footerBg ? footerBg === true ? bg_img : getBgPath(footerBg) : ''
+      - const footer_bg = footerBg && footerBg !== true ? getBgPath(footerBg) : ''
       footer#footer(style=footer_bg)
         !=partial('includes/footer', {}, {cache: true})
 
