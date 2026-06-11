@@ -42,6 +42,10 @@ html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside
     #body-wrap(class=pageType)
       include ./header/index.pug
 
+      //- Tessera 首页开屏模块（仅首页第一页）
+      if theme.home_top && theme.home_top.enable && globalPageType === 'home' && page.prev === 0
+        include ./home-top.pug
+
       main#content-inner.layout(class=hideAside)
         if body
           div!= body

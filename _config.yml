@@ -821,6 +821,62 @@ activate_power_mode:
 # Background effects
 # --------------------------------------
 
+# Tessera home top (Anzhiyu-style hero)
+# 首页开屏模块：标语卡 + 滚动图标墙 + 分类入口 + 推荐位（仅首页第一页显示）
+home_top:
+  enable: true
+  title: 生活明朗
+  subTitle: 万物可爱。
+  siteText: TESSERA
+  # 图标墙：FontAwesome 图标 + 底色，奇偶项自动分成两行反向滚动
+  icons:
+    - icon: fab fa-js
+      color: "#f0db4f"
+    - icon: fab fa-react
+      color: "#61dafb"
+    - icon: fab fa-vuejs
+      color: "#41b883"
+    - icon: fab fa-node-js
+      color: "#68a063"
+    - icon: fab fa-html5
+      color: "#e34f26"
+    - icon: fab fa-css3-alt
+      color: "#264de4"
+    - icon: fab fa-python
+      color: "#3776ab"
+    - icon: fab fa-git-alt
+      color: "#f05032"
+    - icon: fab fa-docker
+      color: "#2496ed"
+    - icon: fab fa-linux
+      color: "#333333"
+    - icon: fab fa-github
+      color: "#24292e"
+    - icon: fab fa-npm
+      color: "#cb3837"
+  # 分类入口：建议 2-3 个；color 支持渐变
+  category:
+    - name: 技术
+      path: /categories/
+      icon: fas fa-dove
+      color: "linear-gradient(120deg, #425AEF, #7a8eff)"
+    - name: 生活
+      path: /categories/
+      icon: fas fa-fire
+      color: "linear-gradient(120deg, #f65c2c, #ff9a52)"
+    - name: 随笔
+      path: /categories/
+      icon: fas fa-book
+      color: "linear-gradient(120deg, #0fb6a5, #4cd9b0)"
+  # 推荐位横幅：image 不填则使用主题色渐变兜底
+  banner:
+    enable: true
+    tips: 主题
+    title: Hexo Theme Tessera
+    image:
+    link: /
+    button: 更多推荐
+
 # Tessera right-click menu (Anzhiyu-style)
 # 自定义右键菜单：导航/复制/随机文章/昼夜切换；选中文字、链接、图片有情境动作
 # 按住 Ctrl 右键可呼出系统原生菜单

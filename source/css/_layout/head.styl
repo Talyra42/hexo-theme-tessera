@@ -464,3 +464,19 @@
       & > :first-child
         opacity: 0
         transform: translateY(10px)
+// Tessera 2.1 -- 顶栏去图标杂音（参考安知鱼：纯文字菜单更显高级）
+#nav
+  .menus_items .menus_item
+    & > a.site-page > i.fa-fw:first-child,
+    & > span.site-page > i.fa-fw:first-child
+      display: none
+
+    .site-page
+      font-weight: 500
+
+  #search-button .site-page
+    & > span
+      display: none
+
+    i
+      margin: 0

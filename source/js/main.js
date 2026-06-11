@@ -894,6 +894,11 @@ document.addEventListener('DOMContentLoaded', () => {
         useTransform: true,
         useResizeObserver: true
       })
+      // 首次排版完成后再淡入，避免「先两列网格、再被 JS 重排」的闪烁
+      masonryItem.once('renderComplete', () => {
+        const itemsWrap = recentPostsElement.querySelector('.recent-post-items')
+        itemsWrap && itemsWrap.classList.add('grid-ready')
+      })
       masonryItem.renderItems()
       btf.addGlobalFn('pjaxCompleteOnce', () => { masonryItem.destroy() }, 'removeJustifiedIndexPostUI')
     }

@@ -484,6 +484,9 @@ module.exports = {
   rightmenu: {
     enable: true
   },
+  home_top: {
+    enable: false
+  },
   bg_3d: {
     enable: true,
     mobile: false,

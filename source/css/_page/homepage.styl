@@ -195,3 +195,18 @@ if $indexLayout == 6
           margin-top: 4px
           -webkit-line-clamp: 3
           font-size: .92em
+
+// 瀑布流防闪烁：排版完成前隐藏，grid-ready 后淡入；0.9s 兜底强制显示（JS 失效时不丢内容）
+#recent-posts.masonry
+  .recent-post-items
+    opacity: 0
+    animation: masonry-fallback 0s linear .9s forwards
+
+    &.grid-ready
+      opacity: 1
+      animation: none
+      transition: opacity .25s ease
+
+@keyframes masonry-fallback
+  to
+    opacity: 1
