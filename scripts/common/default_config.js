@@ -74,7 +74,7 @@ module.exports = {
   },
   post_copyright: {
     enable: true,
-    decode: false,
+    decode: true,
     author_href: null,
     license: 'CC BY-NC-SA 4.0',
     license_url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'

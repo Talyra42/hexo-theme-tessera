@@ -52,12 +52,14 @@
       side: THREE.DoubleSide
     })
     const m = new THREE.Mesh(tileGeo, mat)
-    const s = 0.6 + Math.random() * 2.6
+    // 越靠近镜头的碎片越小，避免大碎片糊在镜头前
+    const depth = Math.random() // 0=近 1=远
+    const s = 0.6 + depth * 1.8
     m.scale.set(s, s, 1)
     m.position.set(
-      (Math.random() - 0.5) * 34,
-      (Math.random() - 0.5) * 20,
-      -2 - Math.random() * 14
+      (Math.random() - 0.5) * 30,
+      (Math.random() - 0.5) * 18,
+      -6 - depth * 16 // 全部稳定停在 [-6, -22]，远离 z=16 的镜头
     )
     m.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
     m.userData = {
@@ -79,7 +81,7 @@
   for (let i = 0; i < P_COUNT; i++) {
     pPos[i * 3] = (Math.random() - 0.5) * 40
     pPos[i * 3 + 1] = (Math.random() - 0.5) * 24
-    pPos[i * 3 + 2] = -1 - Math.random() * 16
+    pPos[i * 3 + 2] = -4 - Math.random() * 16
   }
   pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3))
   const pMat = new THREE.PointsMaterial({
@@ -137,14 +139,15 @@
     camera.position.y = -cy * 0.9 - scrollY * 0.0012
     camera.lookAt(0, -scrollY * 0.0012, 0)
 
-    tileGroup.rotation.y = t * 0.012
+    // 用有界摆动代替持续整组绕 Y 旋转——后者会把大半径碎片甩到 z>0（镜头后方）再糊回镜头前
+    tileGroup.rotation.y = Math.sin(t * 0.05) * 0.12
     for (const m of tiles) {
       const u = m.userData
       m.position.y = u.baseY + Math.sin(t * u.floatSpeed + u.phase) * u.floatAmp
       m.rotation.x += u.spin
       m.rotation.y += u.spin * 0.7
     }
-    points.rotation.y = t * 0.008
+    points.rotation.y = Math.sin(t * 0.04) * 0.1
 
     renderer.render(scene, camera)
     rafId = requestAnimationFrame(frame)

@@ -245,10 +245,145 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /**
+   * 内置图片预览：点击文章图片全屏查看，支持滚轮 / 按钮缩放与拖拽平移。
+   * 仅在未配置第三方 lightbox（fancybox / medium_zoom）时启用，避免重复绑定。
+   * 委托监听与浮层都只初始化一次，可安全跨 pjax 复用。
+   */
+  const runImgPreview = () => {
+    if (window.tesseraImgPreview) return
+
+    const overlay = document.createElement('div')
+    overlay.id = 'image-preview'
+    overlay.className = 'image-preview'
+    overlay.setAttribute('aria-hidden', 'true')
+    overlay.innerHTML = `
+      <img class="image-preview__img" alt="">
+      <div class="image-preview__toolbar">
+        <button type="button" class="image-preview__btn" data-action="zoom-out" title="缩小"><i class="fas fa-magnifying-glass-minus"></i></button>
+        <button type="button" class="image-preview__btn" data-action="reset" title="还原"><i class="fas fa-arrows-rotate"></i></button>
+        <button type="button" class="image-preview__btn" data-action="zoom-in" title="放大"><i class="fas fa-magnifying-glass-plus"></i></button>
+        <button type="button" class="image-preview__btn" data-action="close" title="关闭"><i class="fas fa-xmark"></i></button>
+      </div>`
+    document.body.appendChild(overlay)
+
+    const imgEl = overlay.querySelector('.image-preview__img')
+    const MIN = 1
+    const MAX = 8
+    let scale = 1
+    let tx = 0
+    let ty = 0
+    let dragging = false
+    let sx = 0
+    let sy = 0
+
+    const apply = () => {
+      imgEl.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`
+      imgEl.style.cursor = scale > 1 ? 'grab' : 'default'
+    }
+    const reset = () => { scale = 1; tx = 0; ty = 0; apply() }
+
+    const open = src => {
+      imgEl.src = src
+      reset()
+      overlay.classList.add('active')
+      overlay.setAttribute('aria-hidden', 'false')
+      document.body.style.overflow = 'hidden'
+    }
+    const close = () => {
+      overlay.classList.remove('active')
+      overlay.setAttribute('aria-hidden', 'true')
+      document.body.style.overflow = ''
+    }
+
+    // 以某个屏幕坐标为锚点缩放，缩放后该点保持不动
+    const zoomAt = (factor, cx, cy) => {
+      const next = Math.min(MAX, Math.max(MIN, scale * factor))
+      if (next === scale) return
+      const rect = imgEl.getBoundingClientRect()
+      const ox = cx - (rect.left + rect.width / 2)
+      const oy = cy - (rect.top + rect.height / 2)
+      const ratio = next / scale
+      tx -= ox * (ratio - 1)
+      ty -= oy * (ratio - 1)
+      scale = next
+      if (scale === MIN) { tx = 0; ty = 0 }
+      apply()
+    }
+    const centerZoom = factor => zoomAt(factor, window.innerWidth / 2, window.innerHeight / 2)
+
+    overlay.querySelector('.image-preview__toolbar').addEventListener('click', e => {
+      const btn = e.target.closest('[data-action]')
+      if (!btn) return
+      const action = btn.dataset.action
+      if (action === 'zoom-in') centerZoom(1.4)
+      else if (action === 'zoom-out') centerZoom(1 / 1.4)
+      else if (action === 'reset') reset()
+      else if (action === 'close') close()
+    })
+
+    overlay.addEventListener('click', e => { if (e.target === overlay) close() })
+
+    overlay.addEventListener('wheel', e => {
+      if (!overlay.classList.contains('active')) return
+      e.preventDefault()
+      zoomAt(e.deltaY < 0 ? 1.12 : 1 / 1.12, e.clientX, e.clientY)
+    }, { passive: false })
+
+    imgEl.addEventListener('dblclick', e => {
+      e.preventDefault()
+      scale > 1 ? reset() : zoomAt(2.5, e.clientX, e.clientY)
+    })
+
+    imgEl.addEventListener('pointerdown', e => {
+      if (scale <= 1) return
+      dragging = true
+      sx = e.clientX - tx
+      sy = e.clientY - ty
+      imgEl.style.cursor = 'grabbing'
+      imgEl.setPointerCapture(e.pointerId)
+    })
+    imgEl.addEventListener('pointermove', e => {
+      if (!dragging) return
+      tx = e.clientX - sx
+      ty = e.clientY - sy
+      apply()
+    })
+    const endDrag = () => {
+      if (!dragging) return
+      dragging = false
+      imgEl.style.cursor = scale > 1 ? 'grab' : 'default'
+    }
+    imgEl.addEventListener('pointerup', endDrag)
+    imgEl.addEventListener('pointercancel', endDrag)
+
+    document.addEventListener('keydown', e => {
+      if (!overlay.classList.contains('active')) return
+      if (e.key === 'Escape') close()
+      else if (e.key === '+' || e.key === '=') centerZoom(1.4)
+      else if (e.key === '-') centerZoom(1 / 1.4)
+    })
+
+    // 委托文章正文图片点击；被 <a>（gallery / 外链）包裹的图片交给链接处理
+    document.addEventListener('click', e => {
+      const img = e.target.closest('#article-container img:not(.no-lightbox):not(.no-preview)')
+      if (!img || img.closest('a')) return
+      const src = img.dataset.lazySrc || img.currentSrc || img.src
+      if (src) open(src)
+    })
+
+    window.tesseraImgPreview = { open, close }
+  }
+
+  /**
    * Lightbox
    */
   const runLightbox = () => {
-    btf.loadLightbox(document.querySelectorAll('#article-container img:not(.no-lightbox)'))
+    const service = GLOBAL_CONFIG.lightbox
+    if (service === 'fancybox' || service === 'medium_zoom') {
+      btf.loadLightbox(document.querySelectorAll('#article-container img:not(.no-lightbox)'))
+    } else {
+      runImgPreview()
+    }
   }
 
   /**
@@ -877,7 +1012,11 @@ document.addEventListener('DOMContentLoaded', () => {
     window.lazyLoadInstance = new LazyLoad({
       elements_selector: 'img',
       threshold: 0,
-      data_src: 'lazy-src'
+      data_src: 'lazy-src',
+      // 暴露加载状态给 CSS：未加载完成时展示 SVG 加载动画，加载完成 / 失败后撤掉
+      class_loading: 'lazyload-loading',
+      class_loaded: 'lazyload-loaded',
+      class_error: 'lazyload-error'
     })
 
     btf.addGlobalFn('pjaxComplete', () => {

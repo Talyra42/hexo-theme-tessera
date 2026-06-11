@@ -1,0 +1,71 @@
+// 内置图片预览浮层（main.js runImgPreview）
+// 点击文章图片全屏查看，支持滚轮 / 按钮缩放与拖拽平移；未配置第三方 lightbox 时默认启用。
+
+// 文章正文图片给出可点击放大的指针反馈（被 <a> 包裹的除外）
+#article-container img
+  cursor: zoom-in
+
+#article-container a img
+  cursor: pointer
+
+.image-preview
+  position: fixed
+  inset: 0
+  z-index: 1100
+  display: flex
+  align-items: center
+  justify-content: center
+  background: var(--mark-bg)
+  backdrop-filter: blur(6px)
+  opacity: 0
+  visibility: hidden
+  overscroll-behavior: contain
+  transition: opacity .28s ease, visibility .28s ease
+
+  &.active
+    opacity: 1
+    visibility: visible
+
+.image-preview__img
+  max-width: 92vw
+  max-height: 88vh
+  transform-origin: center center
+  will-change: transform
+  user-select: none
+  -webkit-user-drag: none
+  touch-action: none
+  border-radius: 6px
+  box-shadow: 0 12px 48px rgba(0, 0, 0, .45)
+
+.image-preview__toolbar
+  position: fixed
+  left: 50%
+  bottom: 28px
+  transform: translateX(-50%)
+  display: flex
+  gap: 6px
+  padding: 6px
+  border-radius: 999px
+  background: var(--glass-bg)
+  border: 1px solid var(--glass-border)
+  backdrop-filter: blur(10px)
+  box-shadow: var(--card-box-shadow)
+
+.image-preview__btn
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 40px
+  height: 40px
+  padding: 0
+  border: none
+  border-radius: 50%
+  background: transparent
+  color: var(--font-color)
+  font-size: 16px
+  cursor: pointer
+  transition: background .2s ease, color .2s ease
+
+  &:hover
+    background: var(--tessera-primary)
+    color: #fff

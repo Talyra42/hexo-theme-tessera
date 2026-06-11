@@ -44,11 +44,13 @@ post_meta:
 ```yaml
 post_copyright:
   enable: true
-  decode: false                        # 是否对 URL 解码显示
+  decode: true                         # 对文章链接解码显示，true 时中文链接显示为中文而非 %E4%B8%AD 形式
   author_href:                         # 作者链接（留空用站点地址）
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
 ```
+
+> `decode` 默认 `true`：含中文的文章链接会保持中文显示。设为 `false` 则显示百分号编码（`%E4%B8%AD…`）的原始 URL。
 
 ## 相关文章 `related_post`
 

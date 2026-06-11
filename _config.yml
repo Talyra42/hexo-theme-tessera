@@ -148,7 +148,8 @@ toc:
 
 post_copyright:
   enable: true
-  decode: false
+  # 是否对文章链接解码（true 可让中文链接正常显示，而非 %E4%B8%AD 形式）
+  decode: true
   author_href:
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/

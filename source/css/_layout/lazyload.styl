@@ -1,0 +1,25 @@
+// 懒加载占位动画
+// vanilla-lazyload 在加载期间给 <img> 加上 .lazyload-loading（main.js 配置），
+// 此时用一段自旋的 SVG 环形动画占位，避免「图片很慢时一片空白、误以为没图」。
+// 加载完成（.lazyload-loaded）/ 失败（.lazyload-error）后撤掉占位样式。
+
+$lazyload-spinner = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Ccircle cx='25' cy='25' r='20' fill='none' stroke='%23425aef' stroke-width='4' stroke-opacity='0.18'/%3E%3Cpath fill='none' stroke='%23425aef' stroke-width='4' stroke-linecap='round' d='M25 5a20 20 0 0 1 0 40'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 25 25' to='360 25 25' dur='0.9s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E"
+
+img.lazyload-loading
+  background-color: var(--card-bg)
+  background-image: url($lazyload-spinner)
+  background-repeat: no-repeat
+  background-position: center
+  background-size: 44px 44px
+
+img.lazyload-loaded,
+img.lazyload-error
+  background-image: none
+
+// 文章正文内的图片：加载期间撑出一块完整占位区，让加载动画居中可见，
+// 而不是被压成 1px 的占位 GIF。加载完成后类被移除，恢复图片自身尺寸。
+#article-container img.lazyload-loading
+  width: 100%
+  min-height: 12rem
+  border-radius: var(--card-radius)
+  border: 1px solid var(--glass-border)
