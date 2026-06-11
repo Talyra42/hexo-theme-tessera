@@ -1,6 +1,7 @@
 mixin indexPostUI()
   - const indexLayout = theme.index_layout
-  - const masonryLayoutClass = [6, 7].includes(indexLayout) ? 'masonry' : ''
+  //- 布局 6 已改为等高 CSS 网格（anzhiyu 式），仅布局 7 仍使用 JS 瀑布流
+  - const masonryLayoutClass = indexLayout === 7 ? 'masonry' : ''
   #recent-posts.recent-posts.nc(class=masonryLayoutClass)
     .recent-post-items
       each article, index in page.posts.data

@@ -79,6 +79,9 @@ cover:
   # When cover is not set, the default cover is displayed
   default_cover:
     # - xxx.jpg
+  # 随机封面目录（站点 source 下的相对路径，如 img/cover 对应 <博客根目录>/source/img/cover/）
+  # 把图片丢进该目录即可：未设置 cover 的文章会从中随机取一张作为封面，优先级高于 default_cover
+  random_cover_dir: img/cover
 
 # Replace Broken Images
 error_img:

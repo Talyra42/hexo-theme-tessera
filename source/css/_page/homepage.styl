@@ -174,17 +174,36 @@ $indexEnable = hexo-config('cover.index_enable')
         -webkit-line-clamp: 2
         word-break: break-word
 
-// Tessera 瀑布流（index_layout: 6）
-// 排版交给主题内建的 MasonryInfiniteGrid（main.js）：横向顺序、高度参差的真瀑布流
-// 这里只负责卡片外观；注意不要在卡片上写 hover transform——JS 用 transform 定位，会冲突
+// Tessera 等高网格（index_layout: 6）—— 安知鱼式图上文下卡片
+// CSS Grid 等高布局：同行卡片自动等高，位置纯 CSS 持有（侧栏切换可平滑过渡）
 if $indexLayout == 6
   #recent-posts
+    .recent-post-items
+      display: grid
+      grid-template-columns: repeat(2, 1fr)
+      gap: 16px
+
+      +maxWidth768()
+        grid-template-columns: 1fr
+
+      +minWidth2000()
+        grid-template-columns: repeat(3, 1fr)
+
     .recent-post-item
+      display: flex
+      flex-direction: column
+      margin-bottom: 0
+      width: 100%
+
       .post_cover
+        flex-shrink: 0
         height: 200px
 
       & > .recent-post-info
-        padding: 18px 22px 20px
+        display: flex
+        flex: 1
+        flex-direction: column
+        padding: 16px 22px 16px
 
         & > .article-title
           font-size: 1.26em
@@ -193,8 +212,14 @@ if $indexLayout == 6
 
         & > .content
           margin-top: 4px
-          -webkit-line-clamp: 3
+          -webkit-line-clamp: 2
           font-size: .92em
+
+        // meta 沉底（安知鱼式）：弹性占位把元信息推到卡片底部
+        & > .article-meta-wrap
+          order: 3
+          margin: auto 0 0
+          padding-top: 10px
 
 // 瀑布流防闪烁：排版完成前隐藏，grid-ready 后淡入；0.9s 兜底强制显示（JS 失效时不丢内容）
 #recent-posts.masonry
@@ -210,3 +235,8 @@ if $indexLayout == 6
 @keyframes masonry-fallback
   to
     opacity: 1
+
+// 瀑布流卡片的位置由 JS 逐帧写入 transform，不要再叠加 CSS transform 过渡（会滞后 0.3s）
+#recent-posts.masonry
+  .recent-post-item
+    transition: border-color .3s ease, box-shadow .3s ease

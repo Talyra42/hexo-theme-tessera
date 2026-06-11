@@ -674,15 +674,26 @@ document.addEventListener('DOMContentLoaded', () => {
       const $htmlDom = document.documentElement.classList
       const saveStatus = $htmlDom.contains('hide-aside') ? 'show' : 'hide'
       btf.saveToLocal.set('aside-status', saveStatus, 2)
-      $htmlDom.toggle('hide-aside')
-      // 宽度过渡期间逐帧驱动瀑布流重排，让卡片位置与宽度同步变化而非过渡结束后跳位
-      if (btf.masonryItem) {
-        const start = performance.now()
-        const step = () => {
-          btf.masonryItem && btf.masonryItem.renderItems()
-          if (performance.now() - start < 450) requestAnimationFrame(step)
-        }
-        requestAnimationFrame(step)
+      // 瀑布流页面：卡片位置由 JS 持有，CSS 宽度过渡与 JS 重排无法可靠同帧。
+      // 改用确定性方案：淡出 -> 瞬时切换布局并按新宽度重排 -> 淡入。
+      const masonryWrap = btf.masonryItem && document.getElementById('recent-posts')
+      if (masonryWrap) {
+        // 行内 transition 同时覆盖掉宽度的 CSS 过渡：布局在不可见阶段瞬时完成
+        masonryWrap.style.transition = 'opacity .2s ease'
+        masonryWrap.style.opacity = '0'
+        setTimeout(() => {
+          $htmlDom.toggle('hide-aside')
+          btf.masonryItem && btf.masonryItem.renderItems({ useResize: true })
+          setTimeout(() => {
+            masonryWrap.style.opacity = '1'
+            setTimeout(() => {
+              masonryWrap.style.transition = ''
+              masonryWrap.style.opacity = ''
+            }, 250)
+          }, 60)
+        }, 210)
+      } else {
+        $htmlDom.toggle('hide-aside')
       }
     },
     'mobile-toc-button': (p, item) => { // Show mobile toc

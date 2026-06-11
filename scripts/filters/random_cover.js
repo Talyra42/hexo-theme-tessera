@@ -7,19 +7,36 @@
 hexo.extend.generator.register('post', locals => {
   const imgTestReg = /\.(png|jpe?g|gif|svg|webp|avif)(\?.*)?$/i
   const { post_asset_folder: postAssetFolder } = hexo.config
-  const { cover: { default_cover: defaultCover } } = hexo.theme.config
+  const { cover: { default_cover: defaultCover, random_cover_dir: randomCoverDir } } = hexo.theme.config
+
+  // 随机封面目录：扫描站点 source 下的指定目录，找到图片则作为封面池（优先于 default_cover）
+  let coverPool = defaultCover
+  if (randomCoverDir) {
+    try {
+      const fs = require('fs')
+      const path = require('path')
+      const cleanDir = String(randomCoverDir).replace(/^\/+|\/+$/g, '')
+      const files = fs.readdirSync(path.join(hexo.source_dir, cleanDir)).filter(f => imgTestReg.test(f))
+      if (files.length) {
+        const root = hexo.config.root || '/'
+        coverPool = files.map(f => `${root}${cleanDir}/${f}`)
+      }
+    } catch (e) {
+      hexo.log.warn(`[tessera] random_cover_dir "${randomCoverDir}" 不存在或不可读，回退 default_cover`)
+    }
+  }
 
   function * createCoverGenerator () {
-    if (!defaultCover) {
+    if (!coverPool) {
       while (true) yield false
     }
-    if (!Array.isArray(defaultCover)) {
-      while (true) yield defaultCover
+    if (!Array.isArray(coverPool)) {
+      while (true) yield coverPool
     }
 
-    const coverCount = defaultCover.length
+    const coverCount = coverPool.length
     if (coverCount === 1) {
-      while (true) yield defaultCover[0]
+      while (true) yield coverPool[0]
     }
 
     const maxHistory = Math.min(3, coverCount - 1)
@@ -34,7 +51,7 @@ hexo.extend.generator.register('post', locals => {
       history.push(index)
       if (history.length > maxHistory) history.shift()
 
-      yield defaultCover[index]
+      yield coverPool[index]
     }
   }
 

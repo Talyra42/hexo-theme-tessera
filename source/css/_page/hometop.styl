@@ -93,8 +93,16 @@ if hexo-config('home_top') && hexo-config('home_top.enable')
       animation-delay: -14s // 负延迟：进场即处于播放中途，不暴露起始帧
       will-change: transform
 
+    // 反向行：不用 animation-direction（迭代边界语义不可靠），
+    // 而是整行镜像 + 图标再翻回 -- 与第一行跑同一个正向动画，行为逐像素等价
+    .htop-reverse
+      transform: scaleX(-1)
+
+    .htop-reverse .htop-tile
+      transform: scaleX(-1)
+
     .htop-reverse .htop-iconset
-      animation-direction: reverse
+      animation-delay: -7s // 与第一行错相位，避免两行同步感
 
     .htop-tile
       display: flex
