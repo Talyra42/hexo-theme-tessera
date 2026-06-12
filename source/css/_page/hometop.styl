@@ -7,6 +7,11 @@ if hexo-config('home_top') && hexo-config('home_top.enable')
     max-width: 1400px
     width: 100%
 
+    // 超大屏（≥2000px）跟随 .layout：max-width 从定值切到 60% 视口宽，
+    // 否则开屏模块停在 1400px，比下方文章区（.layout 同断点为 60%）窄一截
+    +minWidth2000()
+      max-width: 60%
+
     // ≤900px 与下方布局同步：侧栏消失，开屏模块堆叠
     +maxWidth900()
       flex-direction: column
@@ -69,6 +74,11 @@ if hexo-config('home_top') && hexo-config('home_top.enable')
       right: -30px
       z-index: 1
       width: 58%
+      // 无缝滚动（轨道 2 份图标平移 -50%）要求「可视窗口 ≤ 一份图标宽度」。
+      // 超大屏下 home-top 变宽会把窗口撑大、超过一份宽度，回卷处露出空档而跳帧。
+      // 故把窗口封顶在 1400px 断点时的已知良好宽度（58% × 74% × (1400-30) ≈ 588px），
+      // 再宽的屏幕也不增长，无缝前提恒成立，与图标数量无关。
+      max-width: 588px
       transform: translateY(-50%) rotate(-8deg)
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 92%, transparent)
       mask-image: linear-gradient(90deg, transparent, #000 22%, #000 92%, transparent)
