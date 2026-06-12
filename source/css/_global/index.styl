@@ -260,11 +260,11 @@ if hexo-config('lazyload.enable') && hexo-config('lazyload.blur') && !hexo-confi
     &[data-lazy-src]
       transition: filter .6s ease
 
-    &[data-lazy-src]:not(.loaded)
+    // 加载状态类名须与 main.js 中 lazyload 的 class_loaded / class_error 配置保持一致
+    // （lazyload-loaded / lazyload-error）。vanilla-lazyload 默认不会移除 data-lazy-src，
+    // 故必须靠这两个类来撤掉模糊，否则图片会一直停在 blur(8px)。
+    &[data-lazy-src]:not(.lazyload-loaded):not(.lazyload-error)
       filter: blur(8px)
-
-    &[data-lazy-src].error
-      filter: none
 
 .img-alt
   margin: -10px 0 10px
