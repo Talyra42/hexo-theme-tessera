@@ -55,7 +55,7 @@ $blockquote-padding-color = $themeColorEnable && hexo-config('theme_color.blockq
 $blockquote-background-color = $themeColorEnable && hexo-config('theme_color.blockquote_background_color') ? alpha(convert(hexo-config('theme_color.blockquote_background_color')), .1) : alpha($blockquote-padding-color, .1)
 // Tessera 2.0 -- 卡片设计令牌
 // 纯净底 + 实色描边卡片（安知鱼式），叠一层轻微磨砂质感（backdrop blur）
-// 让 Three.js 背景隐约透过卡片，但不喧宾夺主
+// 让玻璃碎片背景隐约透过卡片，但不喧宾夺主
 // 浅色卡片
 $glass-bg = rgba(255, 255, 255, .88)
 $glass-border = #e3e8f7
@@ -68,7 +68,7 @@ $glass-bg-dark = rgba(27, 28, 32, .86)
 $glass-border-dark = #3d3d3f
 $glass-shadow-dark = 0 8px 16px -4px rgba(0, 0, 0, .25)
 $glass-shadow-dark-hover = 0 12px 26px -6px rgba(72, 95, 235, .35)
-// 页面底色：纯净、克制（Three.js 背景画布叠加在这层之上）
+// 页面底色：纯净、克制（玻璃碎片背景画布叠加在这层之上）
 $body-bg-light = #f7f9fe
 $body-bg-dark = #18171d
 // page

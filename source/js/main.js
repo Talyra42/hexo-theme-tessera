@@ -1010,7 +1010,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const lazyloadImg = () => {
     window.lazyLoadInstance = new LazyLoad({
-      elements_selector: 'img',
+      // 只接管被过滤器改写过、真正需要懒加载的图片（带 data-lazy-src）。
+      // 若用裸 'img'，顶栏 logo 等 no-lazyload 图片也会被加上 .lazyload-loading
+      // 显示自旋占位，但它们本就加载完成、不会再触发 load 事件，loaded 类永远补不上 → 圈一直转。
+      elements_selector: 'img[data-lazy-src]',
       threshold: 0,
       data_src: 'lazy-src',
       // 暴露加载状态给 CSS：未加载完成时展示 SVG 加载动画，加载完成 / 失败后撤掉

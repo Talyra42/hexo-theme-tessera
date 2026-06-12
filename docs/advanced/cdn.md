@@ -16,7 +16,7 @@ CDN:
 | 字段 | 说明 |
 | --- | --- |
 | `internal_provider` | 主题自带脚本（main、utils 等）的来源。**开发版只能用 `local`** |
-| `third_party_provider` | 第三方库（three.js、fancybox、mathjax 等）的来源 |
+| `third_party_provider` | 第三方库（fancybox、mathjax、prismjs 等）的来源 |
 | `version` | 是否在 URL 上附加版本号 |
 | `custom_format` | 自定义 URL 模板，例如 `https://cdn.staticfile.org/${cdnjs_name}/${version}/${min_cdnjs_file}` |
 | `option` | 逐个资源覆盖 URL（键见 `_config.yml` 注释里的清单，如 `fontawesome`、`mathjax`、`fancybox` 等） |

@@ -1,15 +1,18 @@
 /**
- * Tessera 3D Background — 漂浮玻璃碎片场
- * 主题视觉签名：tessera（马赛克砖）化为半透明 3D 玻璃片，在纯净底色上缓慢漂浮
+ * Tessera 背景 — 漂浮玻璃碎片场（Canvas 2D，零依赖）
+ * 主题视觉签名：tessera（马赛克砖）化为半透明玻璃片，在纯净底色上缓慢漂浮、翻转。
  * - 鼠标视差 / 滚动漂移 / 深浅色模式自适应
- * - 标签页隐藏时暂停渲染；prefers-reduced-motion 时渲染静态帧
- * 依赖：three.js（UMD 全局 THREE），由 effect.pug 按序注入
+ * - 标签页隐藏时暂停渲染；prefers-reduced-motion 时只渲染静态一帧
+ * - 限 ~30fps，远比 WebGL 持续满帧省电（不再依赖 three.js）
+ *
+ * 「玻璃翻转」的观感：用 ctx.scale 让碎片横向宽度随时间做 cos 摆动——一块平面绕竖轴
+ * 旋转时投影宽度正是 cos(角度)，逼近边缘时几乎成一条线，于是看起来像玻璃片在缓缓翻面。
  */
 (() => {
   'use strict'
 
   const scriptEl = document.getElementById('bg3d')
-  if (!scriptEl || typeof THREE === 'undefined') return
+  if (!scriptEl) return
 
   const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent)
   if (isMobile && scriptEl.getAttribute('data-mobile') !== 'true') return
@@ -25,145 +28,164 @@
     'position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:' +
     zIndex + ';pointer-events:none;opacity:' + globalAlpha
   document.body.appendChild(canvas)
+  const ctx = canvas.getContext('2d')
 
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true })
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-  renderer.setSize(window.innerWidth, window.innerHeight)
-
-  const scene = new THREE.Scene()
-  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100)
-  camera.position.z = 16
+  let W = 0; let H = 0
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    W = window.innerWidth
+    H = window.innerHeight
+    canvas.width = W * dpr
+    canvas.height = H * dpr
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+  }
+  resize()
 
   const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark'
+  const rand = (a, b) => a + Math.random() * (b - a)
 
   // ---------- 玻璃碎片 ----------
-  const PALETTE = [0x425aef, 0x637dff, 0x8fa3ff, 0xc7d1ff]
-  const TILE_COUNT = isMobile ? 28 : 55
-  const tiles = []
-  const tileGroup = new THREE.Group()
-  scene.add(tileGroup)
-
-  const tileGeo = new THREE.PlaneGeometry(1, 1)
-  for (let i = 0; i < TILE_COUNT; i++) {
-    const mat = new THREE.MeshBasicMaterial({
-      color: PALETTE[i % PALETTE.length],
-      transparent: true,
-      depthWrite: false,
-      side: THREE.DoubleSide
-    })
-    const m = new THREE.Mesh(tileGeo, mat)
-    // 越靠近镜头的碎片越小，避免大碎片糊在镜头前
+  // 蓝色家族（与 var.styl 的主色一致）
+  const PALETTE = [[66, 90, 239], [99, 125, 255], [143, 163, 255], [199, 209, 255]]
+  const SHARD_COUNT = isMobile ? 14 : 26
+  const shards = []
+  for (let i = 0; i < SHARD_COUNT; i++) {
     const depth = Math.random() // 0=近 1=远
-    const s = 0.6 + depth * 1.8
-    m.scale.set(s, s, 1)
-    m.position.set(
-      (Math.random() - 0.5) * 30,
-      (Math.random() - 0.5) * 18,
-      -6 - depth * 16 // 全部稳定停在 [-6, -22]，远离 z=16 的镜头
-    )
-    m.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI)
-    m.userData = {
-      baseY: m.position.y,
-      floatAmp: 0.4 + Math.random() * 0.9,
-      floatSpeed: 0.15 + Math.random() * 0.3,
-      spin: (Math.random() - 0.5) * 0.004,
+    shards.push({
+      depth,
+      x: Math.random(), // 归一化基准位置（0~1）
+      y: Math.random(),
+      size: rand(46, 120) * (0.5 + depth * 0.9), // 越远越大；近处碎片更小，避免糊在眼前
+      color: PALETTE[i % PALETTE.length],
+      baseOpacity: 0.05 + Math.random() * 0.08,
+      floatAmp: rand(8, 26),
+      floatSpeed: rand(0.15, 0.45),
       phase: Math.random() * Math.PI * 2,
-      baseOpacity: 0.05 + Math.random() * 0.1
-    }
-    tiles.push(m)
-    tileGroup.add(m)
+      spin: rand(-0.18, 0.18), // 平面内自转速度
+      rot: Math.random() * Math.PI * 2,
+      flipSpeed: rand(0.2, 0.55), // 绕竖轴翻转速度
+      flipPhase: Math.random() * Math.PI * 2,
+      skew: rand(-0.22, 0.22),
+      parallax: 0.3 + (1 - depth) * 1.4 // 近处视差更大
+    })
   }
+  // 远的先画、近的后画（叠在上层）
+  shards.sort((a, b) => b.depth - a.depth)
 
   // ---------- 微尘粒子 ----------
-  const P_COUNT = isMobile ? 120 : 260
-  const pGeo = new THREE.BufferGeometry()
-  const pPos = new Float32Array(P_COUNT * 3)
-  for (let i = 0; i < P_COUNT; i++) {
-    pPos[i * 3] = (Math.random() - 0.5) * 40
-    pPos[i * 3 + 1] = (Math.random() - 0.5) * 24
-    pPos[i * 3 + 2] = -4 - Math.random() * 16
-  }
-  pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3))
-  const pMat = new THREE.PointsMaterial({
-    color: 0x637dff,
-    size: 0.06,
-    transparent: true,
-    depthWrite: false
-  })
-  const points = new THREE.Points(pGeo, pMat)
-  scene.add(points)
-
-  // ---------- 深浅色自适应 ----------
-  const applyTheme = () => {
-    const dark = isDark()
-    tiles.forEach(t => {
-      // 深色底上玻璃片更亮、用加法混合产生柔光；浅色底上保持极淡
-      t.material.opacity = t.userData.baseOpacity * (dark ? 1.7 : 1)
-      t.material.blending = dark ? THREE.AdditiveBlending : THREE.NormalBlending
-      t.material.needsUpdate = true
+  const DUST_COUNT = isMobile ? 60 : 120
+  const dust = []
+  for (let i = 0; i < DUST_COUNT; i++) {
+    dust.push({
+      x: Math.random(),
+      y: Math.random(),
+      r: rand(0.5, 1.6),
+      baseOpacity: 0.3 + Math.random() * 0.7,
+      speed: rand(0.1, 0.3),
+      phase: Math.random() * Math.PI * 2
     })
-    pMat.opacity = dark ? 0.5 : 0.35
   }
-  applyTheme()
-  new MutationObserver(applyTheme)
-    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
 
   // ---------- 交互 ----------
   let mx = 0; let my = 0; let cx = 0; let cy = 0
   window.addEventListener('mousemove', e => {
-    mx = (e.clientX / window.innerWidth - 0.5) * 2
-    my = (e.clientY / window.innerHeight - 0.5) * 2
+    mx = (e.clientX / W - 0.5) * 2
+    my = (e.clientY / H - 0.5) * 2
   }, { passive: true })
 
   let scrollY = 0
   window.addEventListener('scroll', () => { scrollY = window.scrollY }, { passive: true })
 
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight
-    camera.updateProjectionMatrix()
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    if (reduceMotion) renderer.render(scene, camera)
-  })
-
-  // ---------- 渲染循环 ----------
-  let rafId = null
-  const clock = new THREE.Clock()
-
-  const frame = () => {
-    const t = clock.getElapsedTime()
-
-    // 鼠标视差（阻尼）
-    cx += (mx - cx) * 0.03
-    cy += (my - cy) * 0.03
-    camera.position.x = cx * 1.4
-    camera.position.y = -cy * 0.9 - scrollY * 0.0012
-    camera.lookAt(0, -scrollY * 0.0012, 0)
-
-    // 用有界摆动代替持续整组绕 Y 旋转——后者会把大半径碎片甩到 z>0（镜头后方）再糊回镜头前
-    tileGroup.rotation.y = Math.sin(t * 0.05) * 0.12
-    for (const m of tiles) {
-      const u = m.userData
-      m.position.y = u.baseY + Math.sin(t * u.floatSpeed + u.phase) * u.floatAmp
-      m.rotation.x += u.spin
-      m.rotation.y += u.spin * 0.7
-    }
-    points.rotation.y = Math.sin(t * 0.04) * 0.1
-
-    renderer.render(scene, camera)
-    rafId = requestAnimationFrame(frame)
+  // ---------- 绘制 ----------
+  const roundRect = (x, y, w, h, r) => {
+    ctx.beginPath()
+    ctx.moveTo(x + r, y)
+    ctx.arcTo(x + w, y, x + w, y + h, r)
+    ctx.arcTo(x + w, y + h, x, y + h, r)
+    ctx.arcTo(x, y + h, x, y, r)
+    ctx.arcTo(x, y, x + w, y, r)
+    ctx.closePath()
   }
 
+  const draw = t => {
+    ctx.clearRect(0, 0, W, H)
+    const dark = isDark()
+    // 深色底：加法混合产生柔光；浅色底：常规叠加保持极淡
+    ctx.globalCompositeOperation = dark ? 'lighter' : 'source-over'
+
+    // 鼠标视差（阻尼）+ 滚动漂移
+    cx += (mx - cx) * 0.03
+    cy += (my - cy) * 0.03
+    const camX = cx * 40
+    const camY = -cy * 26 - scrollY * 0.04
+
+    for (const s of shards) {
+      const px = s.x * W + camX * s.parallax
+      let py = s.y * H + camY * s.parallax + Math.sin(t * s.floatSpeed + s.phase) * s.floatAmp
+      // 纵向回环，避免长页面滚动后碎片全部飘出、留下空屏
+      const span = H + s.size * 2
+      py = ((py + s.size) % span + span) % span - s.size
+
+      const flip = Math.max(Math.abs(Math.cos(t * s.flipSpeed + s.flipPhase)), 0.12)
+      const op = s.baseOpacity * (dark ? 1.9 : 1)
+      const [r, g, b] = s.color
+      const half = s.size / 2
+
+      ctx.save()
+      ctx.translate(px, py)
+      ctx.rotate(s.rot + t * s.spin * 0.1)
+      ctx.scale(flip, 1) // 横向压缩 = 绕竖轴翻转
+      ctx.transform(1, 0, s.skew, 1, 0, 0) // 轻微错切，多一分玻璃感
+      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + op + ')'
+      roundRect(-half, -half, s.size, s.size, s.size * 0.16)
+      ctx.fill()
+      ctx.lineWidth = 1
+      ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + Math.min(op * 2.4, 0.5) + ')'
+      ctx.stroke()
+      ctx.restore()
+    }
+
+    const dustBoost = dark ? 0.5 : 0.32
+    for (const d of dust) {
+      const px = d.x * W + camX * 0.5
+      let py = d.y * H + camY * 0.5 + Math.sin(t * d.speed + d.phase) * 6
+      py = ((py % H) + H) % H
+      ctx.fillStyle = 'rgba(99,125,255,' + (d.baseOpacity * dustBoost) + ')'
+      ctx.beginPath()
+      ctx.arc(px, py, d.r, 0, Math.PI * 2)
+      ctx.fill()
+    }
+  }
+
+  // ---------- 渲染循环（限 ~30fps） ----------
+  let rafId = null
+  let last = -1000
+  const loop = ts => {
+    rafId = requestAnimationFrame(loop)
+    if (ts - last < 33) return
+    last = ts
+    draw(ts / 1000)
+  }
+
+  window.addEventListener('resize', () => {
+    resize()
+    if (reduceMotion) draw(0)
+  })
+
+  // 深浅色切换：动画态下一帧自动反映；静态态需手动重绘
+  new MutationObserver(() => { if (reduceMotion) draw(0) })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+
   if (reduceMotion) {
-    renderer.render(scene, camera) // 静态一帧，不做动画
+    draw(0) // 静态一帧，不做动画
   } else {
-    rafId = requestAnimationFrame(frame)
+    rafId = requestAnimationFrame(loop)
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
-        cancelAnimationFrame(rafId)
-        rafId = null
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null }
       } else if (!rafId) {
-        clock.start()
-        rafId = requestAnimationFrame(frame)
+        last = -1000
+        rafId = requestAnimationFrame(loop)
       }
     })
   }

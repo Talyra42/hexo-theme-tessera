@@ -2,9 +2,8 @@
 if theme.rightmenu && theme.rightmenu.enable
   script(defer src=url_for(theme.asset.rightmenu))
 
-//- Tessera 3D 玻璃碎片背景（主题视觉签名）
+//- Tessera 漂浮玻璃碎片背景（主题视觉签名，Canvas 2D 零依赖）
 if theme.bg_3d && theme.bg_3d.enable
-  script(defer src=url_for(theme.asset.threejs))
   script(defer id="bg3d" data-mobile=`${theme.bg_3d.mobile}` data-zindex=theme.bg_3d.zIndex data-opacity=theme.bg_3d.opacity src=url_for(theme.asset.bg3d))
 
 if theme.fireworks && theme.fireworks.enable

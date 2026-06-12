@@ -172,7 +172,11 @@
 
     // 博客标题 / 文章标题 —— 垂直滚动切换（替代原本的瞬切）
     .nav-site-title
-      display: inline-block
+      // inline-flex + 居中：让 logo 图标与站名严格同一水平线（原 inline-block 靠 vertical-align 对不齐）
+      display: inline-flex
+      align-items: center
+      // 按行盒中线对齐：否则 inline-flex 钉在文字基线上、下方留出行距空白，整组被挤得偏高
+      vertical-align: middle
       transition: opacity .4s cubic-bezier(.4, 0, .2, 1), transform .4s cubic-bezier(.4, 0, .2, 1)
 
     .nav-page-title

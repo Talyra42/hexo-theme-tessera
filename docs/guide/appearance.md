@@ -45,9 +45,9 @@ preloader:
 - `source: 1` —— 主题内置的**全屏环形（彗尾）加载动画**，纯 CSS、零依赖，加载完成或 7 秒超时后自动隐藏，并参与 Pjax 跳页过渡。
 - `source: 2` —— 使用 [pace.js](https://codebyzach.github.io/pace/) 顶部进度条。
 
-## Tessera 3D 背景 `bg_3d`
+## Tessera 玻璃碎片背景 `bg_3d`
 
-主题的视觉签名：基于 three.js 的漂浮玻璃碎片场，支持鼠标视差、滚动漂移、深浅色自适应，标签页隐藏时暂停渲染，`prefers-reduced-motion` 时只渲染静态帧。
+主题的视觉签名：基于 **Canvas 2D** 的漂浮玻璃碎片场，支持鼠标视差、滚动漂移、深浅色自适应，标签页隐藏时暂停渲染，`prefers-reduced-motion` 时只渲染静态帧。渲染限制在约 30fps，远比持续满帧的 WebGL 省电。
 
 ```yaml
 bg_3d:
@@ -57,8 +57,8 @@ bg_3d:
   opacity: 1         # 画布整体不透明度（0~1）
 ```
 
-::: tip 依赖
-3D 背景依赖 three.js（UMD 全局），由主题自动按序注入；无需手动安装。移动端默认关闭，桌面端碎片数量更多。
+::: tip 零依赖
+玻璃碎片背景由 Canvas 2D 绘制，**不依赖 three.js 或任何第三方库**，由主题自动注入；无需手动安装。移动端默认关闭，桌面端碎片数量更多。
 :::
 
 ## 自定义右键菜单 `rightmenu`

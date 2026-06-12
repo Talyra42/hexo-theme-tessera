@@ -863,8 +863,8 @@ home_top:
 rightmenu:
   enable: true
 
-# Tessera 3D 背景（主题视觉签名）
-# 漂浮玻璃碎片场，基于 three.js；深浅色模式自适应，移动端默认关闭
+# Tessera 漂浮玻璃碎片背景（主题视觉签名）
+# Canvas 2D 实现、零依赖；深浅色模式自适应，移动端默认关闭
 bg_3d:
   enable: true
   mobile: false

@@ -38,11 +38,6 @@ canvas_nest:
   name: butterfly-extsrc
   file: dist/canvas-nest.min.js
   version: 1.1.6
-threejs:
-  name: three
-  other_name: three.js
-  file: build/three.min.js
-  version: 0.149.0
 canvas_ribbon:
   name: butterfly-extsrc
   file: dist/canvas-ribbon.min.js
