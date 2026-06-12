@@ -763,21 +763,33 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
+  // 三态主题切换：auto（跟随系统）-> dark -> light -> auto
+  const THEME_ORDER = ['auto', 'dark', 'light']
+  const THEME_ICONS = { auto: 'fa-circle-half-stroke', dark: 'fa-moon', light: 'fa-sun' }
+
+  // 按当前保存的状态更新右下角按钮图标（按钮位于 pjax 容器内，每次刷新都要重设）
+  const updateDarkmodeBtn = mode => {
+    const icon = document.querySelector('#darkmode i')
+    if (icon) icon.className = 'fas ' + (THEME_ICONS[mode] || 'fa-adjust')
+  }
+
   /**
    * Rightside
    */
   const rightSideFn = {
-    darkmode: () => { // switch between light and dark mode
-      const willChangeMode = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
-      if (willChangeMode === 'dark') {
-        btf.activateDarkMode()
-        GLOBAL_CONFIG.Snackbar !== undefined && btf.snackbarShow(GLOBAL_CONFIG.Snackbar.day_to_night)
-      } else {
-        btf.activateLightMode()
-        GLOBAL_CONFIG.Snackbar !== undefined && btf.snackbarShow(GLOBAL_CONFIG.Snackbar.night_to_day)
+    darkmode: () => { // 在 跟随系统 / 深色 / 浅色 三态间循环
+      const current = btf.saveToLocal.get('theme') || 'auto'
+      const next = THEME_ORDER[(THEME_ORDER.indexOf(current) + 1) % THEME_ORDER.length]
+      btf.saveToLocal.set('theme', next, 2)
+      const real = btf.applyThemeMode(next)
+      updateDarkmodeBtn(next)
+      if (GLOBAL_CONFIG.Snackbar !== undefined) {
+        const msg = next === 'auto'
+          ? GLOBAL_CONFIG.Snackbar.auto_mode
+          : real === 'dark' ? GLOBAL_CONFIG.Snackbar.day_to_night : GLOBAL_CONFIG.Snackbar.night_to_day
+        btf.snackbarShow(msg)
       }
-      btf.saveToLocal.set('theme', willChangeMode, 2)
-      handleThemeChange(willChangeMode)
+      handleThemeChange(real)
     },
     'rightside-config': item => { // Show or hide rightside-hide-btn
       const hideLayout = item.firstElementChild
@@ -1070,12 +1082,60 @@ document.addEventListener('DOMContentLoaded', () => {
     GLOBAL_CONFIG.islazyloadPlugin && lazyloadImg()
     GLOBAL_CONFIG.copyright !== undefined && addCopyright()
 
+    // darkmode 开启时常驻监听系统配色：仅当用户未显式选择 深色 / 浅色（即处于「跟随系统」）时跟随变化
     if (GLOBAL_CONFIG.autoDarkmode) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (btf.saveToLocal.get('theme') !== undefined) return
-        e.matches ? handleThemeChange('dark') : handleThemeChange('light')
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        const saved = btf.saveToLocal.get('theme')
+        if (saved === 'light' || saved === 'dark') return
+        handleThemeChange(btf.applyThemeMode('auto'))
+        updateDarkmodeBtn(saved || 'auto')
       })
     }
+  }
+
+  // 检测到 Dark Reader 等浏览器改色插件时，在首页顶部展示可关闭的提示
+  const darkReaderNoticeFn = () => {
+    const notice = document.getElementById('dark-reader-notice')
+    if (!notice || notice.dataset.drnInit) return
+    notice.dataset.drnInit = '1'
+
+    // 用户已手动关闭过则不再打扰
+    if (btf.saveToLocal.get('dark-reader-notice-dismissed')) return
+
+    const root = document.documentElement
+    const isExtActive = () =>
+      root.hasAttribute('data-darkreader-mode') ||
+      root.hasAttribute('data-darkreader-scheme') ||
+      document.querySelector('style.darkreader, style#dark-reader-style, meta[name="darkreader"]') !== null
+
+    let timers = []
+    let observer = null
+    const stop = () => {
+      timers.forEach(clearTimeout)
+      timers = []
+      if (observer) { observer.disconnect(); observer = null }
+    }
+    const reveal = () => {
+      stop()
+      notice.classList.add('drn-show')
+    }
+    const check = () => { isExtActive() && reveal() }
+
+    notice.querySelector('.drn-close').addEventListener('click', () => {
+      stop()
+      notice.classList.remove('drn-show')
+      btf.saveToLocal.set('dark-reader-notice-dismissed', '1', 30)
+    })
+
+    check()
+    if (notice.classList.contains('drn-show')) return
+
+    // 插件是异步注入的：定时重试 + 监听 <html> 属性与 <head> 注入，最长观察 5s
+    ;[300, 800, 1600, 3000].forEach(t => timers.push(setTimeout(check, t)))
+    observer = new MutationObserver(check)
+    observer.observe(root, { attributes: true, attributeFilter: ['data-darkreader-mode', 'data-darkreader-scheme'] })
+    observer.observe(document.head, { childList: true })
+    timers.push(setTimeout(stop, 5000))
   }
 
   const forPostFn = () => {
@@ -1104,6 +1164,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     scrollFn()
+
+    updateDarkmodeBtn(btf.saveToLocal.get('theme') || 'auto')
+    darkReaderNoticeFn()
 
     forPostFn()
     GLOBAL_CONFIG_SITE.pageType !== 'shuoshuo' && btf.switchComments(document)

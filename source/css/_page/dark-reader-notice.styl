@@ -1,0 +1,74 @@
+// Tessera 改色插件提示（Dark Reader 等）
+// 与开屏模块同宽对齐；默认隐藏，由 JS 加 .drn-show 显示
+#dark-reader-notice
+  display: none
+  margin: 0 auto
+  padding: 96px 15px 0
+  max-width: 1400px
+  width: 100%
+
+  // 与 #home-top 同步：超大屏跟随 .layout 收到 60% 视口宽
+  +minWidth2000()
+    max-width: 60%
+
+  +maxWidth768()
+    padding: 90px 12px 0
+
+  &.drn-show
+    display: block
+
+  .drn-inner
+    @extend .cardHover
+    display: flex
+    align-items: center
+    gap: 14px
+    padding: 14px 16px
+
+  .drn-icon
+    flex: 0 0 auto
+    font-size: 22px
+    color: var(--tessera-primary)
+
+  .drn-text
+    display: flex
+    flex-direction: column
+    gap: 3px
+    flex: 1 1 auto
+    min-width: 0
+
+  .drn-title
+    font-weight: 600
+    // 显式行高：否则标题继承全局较大行高，首行上方留白会比末行下方多，导致上下不对称
+    line-height: 1.5
+    color: var(--font-color)
+
+  .drn-desc
+    font-size: 13px
+    line-height: 1.6
+    color: var(--text-highlight-color)
+    opacity: .85
+
+  .drn-close
+    display: flex
+    align-items: center
+    justify-content: center
+    flex: 0 0 auto
+    width: 32px
+    height: 32px
+    color: var(--font-color)
+    background: transparent
+    font-size: 15px
+    cursor: pointer
+    addBorderRadius(8)
+    transition: background-color .3s ease, color .3s ease
+
+    &:hover
+      background: var(--tessera-primary)
+      color: #fff
+
+// 提示显示时，下方模块无需再为贴顶导航栏留出整段高度
+#dark-reader-notice.drn-show ~ #home-top
+  padding-top: 24px
+
+#dark-reader-notice.drn-show ~ .layout
+  padding-top: 24px

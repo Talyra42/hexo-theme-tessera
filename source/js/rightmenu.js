@@ -131,10 +131,13 @@
       case 'darkmode': {
         const sw = document.getElementById('darkmode')
         if (sw) sw.click()
-        else if (window.btf) {
-          const wm = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'
-          wm === 'dark' ? btf.activateDarkMode() : btf.activateLightMode()
-          btf.saveToLocal.set('theme', wm, 2)
+        else if (window.btf && btf.applyThemeMode) {
+          // 无右下角按钮时的回退：同样在 跟随系统 / 深色 / 浅色 三态间循环
+          const order = ['auto', 'dark', 'light']
+          const cur = btf.saveToLocal.get('theme') || 'auto'
+          const next = order[(order.indexOf(cur) + 1) % order.length]
+          btf.saveToLocal.set('theme', next, 2)
+          btf.applyThemeMode(next)
         }
         break
       }

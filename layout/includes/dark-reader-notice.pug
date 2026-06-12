@@ -1,0 +1,10 @@
+//- 检测到 Dark Reader 等改色插件时的首页提示。
+//- 默认隐藏（display:none），由 source/js/main.js 的 darkReaderNoticeFn 检测后加 .drn-show 显示。
+#dark-reader-notice
+  .drn-inner
+    i.drn-icon.fas.fa-circle-half-stroke(aria-hidden='true')
+    .drn-text
+      span.drn-title= _p('dark_reader_notice.title')
+      span.drn-desc= _p('dark_reader_notice.desc')
+    button.drn-close(type='button' title=_p('dark_reader_notice.close') aria-label=_p('dark_reader_notice.close'))
+      i.fas.fa-xmark(aria-hidden='true')

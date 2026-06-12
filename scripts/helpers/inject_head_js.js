@@ -64,65 +64,45 @@ hexo.extend.helper.register('inject_head_js', function () {
   const createDarkmodeJs = () => {
     if (!darkmode.enable) return ''
 
-    let darkmodeJs = `
+    // 三态主题：'light' / 'dark' / 'auto'。未保存或保存为 'auto' 都按「跟随系统」处理。
+    // 这套逻辑在首屏内联执行（早于绘制，避免闪烁），并把工具函数挂到 btf 供 main.js / rightmenu.js 复用。
+    const autoChangeMode = darkmode.autoChangeMode || 0
+
+    return `
       const activateDarkMode = () => {
         document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '${themeColorDark}')
-        }
+        const metaColor = document.querySelector('meta[name="theme-color"]')
+        if (metaColor !== null) metaColor.setAttribute('content', '${themeColorDark}')
       }
       const activateLightMode = () => {
         document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '${themeColorLight}')
-        }
+        const metaColor = document.querySelector('meta[name="theme-color"]')
+        if (metaColor !== null) metaColor.setAttribute('content', '${themeColorLight}')
       }
-
       btf.activateDarkMode = activateDarkMode
       btf.activateLightMode = activateLightMode
 
-      const theme = saveToLocal.get('theme')
+      // 'auto' 解析：优先跟随系统配色；系统无明确偏好（或 autoChangeMode===2 强制时间）时按时间段回退
+      const resolveAutoTheme = () => {
+        if (${autoChangeMode} !== 2) {
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark'
+          if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light'
+        }
+        const hour = new Date().getHours()
+        return (hour <= ${start} || hour >= ${end}) ? 'dark' : 'light'
+      }
+      btf.resolveAutoTheme = resolveAutoTheme
+
+      // 应用某个保存值并返回实际生效的 'dark' / 'light'
+      const applyThemeMode = mode => {
+        const real = (mode === 'light' || mode === 'dark') ? mode : resolveAutoTheme()
+        real === 'dark' ? activateDarkMode() : activateLightMode()
+        return real
+      }
+      btf.applyThemeMode = applyThemeMode
+
+      applyThemeMode(saveToLocal.get('theme'))
     `
-
-    switch (darkmode.autoChangeMode) {
-      case 1:
-        darkmodeJs += `
-          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
-          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
-
-          if (theme === undefined) {
-            if (mediaQueryLight.matches) activateLightMode()
-            else if (mediaQueryDark.matches) activateDarkMode()
-            else {
-              const hour = new Date().getHours()
-              const isNight = hour <= ${start} || hour >= ${end}
-              isNight ? activateDarkMode() : activateLightMode()
-            }
-            mediaQueryDark.addEventListener('change', () => {
-              if (saveToLocal.get('theme') === undefined) {
-                e.matches ? activateDarkMode() : activateLightMode()
-              }
-            })
-          } else {
-            theme === 'light' ? activateLightMode() : activateDarkMode()
-          }
-        `
-        break
-      case 2:
-        darkmodeJs += `
-          const hour = new Date().getHours()
-          const isNight = hour <= ${start} || hour >= ${end}
-          if (theme === undefined) isNight ? activateDarkMode() : activateLightMode()
-          else theme === 'light' ? activateLightMode() : activateDarkMode()
-        `
-        break
-      default:
-        darkmodeJs += `
-          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
-        `
-    }
-
-    return darkmodeJs
   }
 
   const createAsideStatusJs = () => {

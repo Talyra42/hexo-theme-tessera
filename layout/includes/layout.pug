@@ -42,6 +42,10 @@ html(lang=config.language data-theme=theme.display_mode class=htmlClassHideAside
     #body-wrap(class=pageType)
       include ./header/index.pug
 
+      //- Tessera 改色插件提示（仅首页第一页，默认隐藏，由 JS 检测到插件后显示）
+      if theme.darkmode.enable && theme.darkmode.extension_notice && globalPageType === 'home' && page.prev === 0
+        include ./dark-reader-notice.pug
+
       //- Tessera 首页开屏模块（仅首页第一页）
       if theme.home_top && theme.home_top.enable && globalPageType === 'home' && page.prev === 0
         include ./home-top.pug

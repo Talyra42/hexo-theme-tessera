@@ -115,6 +115,12 @@ Snackbar:
   cht_to_chs: You have switched to Simplified Chinese
   day_to_night: You have switched to Dark Mode
   night_to_day: You have switched to Light Mode
+  auto_mode: Now following your system theme
+
+dark_reader_notice:
+  title: Browser color-changing extension detected
+  desc: It looks like Dark Reader or a similar extension is active. It overrides this site's colors and may hurt readability. This site has a built-in dark mode — consider disabling such extensions and use the button at the bottom-right to switch between Auto / Dark / Light.
+  close: Dismiss
 
 loading: Loading...
 load_more: Load More

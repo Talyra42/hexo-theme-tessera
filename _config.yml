@@ -326,16 +326,18 @@ translate:
 # 深色模式
 darkmode:
   enable: true
-  # 切换深 / 浅色模式的按钮
+  # 切换深 / 浅色模式的按钮（点击在 跟随系统 / 深色 / 浅色 三态间循环）
   button: true
-  # 自动切换深 / 浅色模式
+  # 「跟随系统」状态下系统无明确偏好时的回退方式
   # autoChangeMode: 1  跟随系统设置；若系统不支持深色模式，则在 18:00 - 6:00 之间切换为深色
-  # autoChangeMode: 2  在 18:00 - 6:00 之间切换为深色
+  # autoChangeMode: 2  始终按时间段：在 18:00 - 6:00 之间切换为深色（忽略系统偏好）
   # autoChangeMode: false
   autoChangeMode: false
   # 设置浅色模式的时间段，取值 0 ~ 24；不设置时默认为 6 和 18
   start:
   end:
+  # 检测到 Dark Reader 等浏览器改色插件时，在首页顶部显示可关闭的提示
+  extension_notice: true
 
 # 在「返回顶部」按钮上显示滚动百分比
 rightside_scroll_percent: false

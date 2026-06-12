@@ -203,7 +203,8 @@ module.exports = {
     button: true,
     autoChangeMode: false,
     start: null,
-    end: null
+    end: null,
+    extension_notice: true
   },
   rightside_scroll_percent: false,
   rightside_item_order: {

@@ -116,6 +116,12 @@ Snackbar:
   cht_to_chs: 已切换为简体中文
   day_to_night: 已切换为深色模式
   night_to_day: 已切换为浅色模式
+  auto_mode: 已切换为跟随系统
+
+dark_reader_notice:
+  title: 检测到浏览器改色插件
+  desc: 你似乎启用了 Dark Reader 等改色扩展，它会覆盖本站配色、影响浏览体验。本站自带深色模式，建议关闭此类插件，并用右下角按钮在 跟随系统 / 深色 / 浅色 之间切换。
+  close: 关闭
 
 loading: 加载中...
 load_more: 加载更多

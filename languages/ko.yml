@@ -115,6 +115,12 @@ Snackbar:
   cht_to_chs: 간체로 전환되었습니다.
   day_to_night: 다크 모드로 전환되었습니다.
   night_to_day: 라이트 모드로 전환되었습니다.
+  auto_mode: 시스템 설정을 따르도록 전환되었습니다.
+
+dark_reader_notice:
+  title: 브라우저 색상 변경 확장 프로그램이 감지되었습니다
+  desc: Dark Reader 같은 확장 프로그램이 활성화된 것 같습니다. 사이트 색상을 덮어써 가독성을 해칠 수 있습니다. 이 사이트에는 다크 모드가 내장되어 있으니 확장 프로그램을 끄고 오른쪽 아래 버튼으로 자동 / 다크 / 라이트를 전환해 사용하세요.
+  close: 닫기
 
 loading: 로딩 중...
 load_more: 더 보기
